@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Symlink the ai-harness skills into ~/.claude/skills (idempotent, non-destructive).
+# Symlink the Tribe Harness skills into ~/.claude/skills (idempotent, non-destructive).
 # Re-run anytime; it repoints stale links and refuses to clobber real files.
 
 HARNESS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

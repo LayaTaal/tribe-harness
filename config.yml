@@ -1,4 +1,4 @@
-# AI Harness configuration
+# Tribe Harness configuration
 #
 # Model policy: which model each workflow stage runs on.
 #   - "session" means run INLINE in your current session (no subagent dispatch);

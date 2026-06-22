@@ -1,4 +1,4 @@
-# AI Harness
+# Tribe Harness
 
 A personal, self-contained workflow for taking Modern Tribe Jira tickets through their
 full lifecycle — **collaboratively**. It drives the work with you (understand →
