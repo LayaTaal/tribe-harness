@@ -1,0 +1,48 @@
+# AI Harness configuration
+#
+# Model policy: which model each workflow stage runs on.
+#   - "session" means run INLINE in your current session (no subagent dispatch);
+#     launch /ticket on Opus so these get Opus-level judgment.
+#   - A model id (opus | sonnet | haiku | fable) means dispatch that stage as a
+#     subagent on that model.
+# Override any of this per-run by telling the orchestrator (e.g. "use opus for develop").
+
+models:
+  # Coordination + judgment — run inline on the session model.
+  orchestrate: session
+  understand:  session
+  estimate:    session
+
+  # "Think" stages — architecture, planning, sharp review.
+  brainstorm:  opus
+  plan:        opus
+  review:      opus
+
+  # Implementation subagents — fast, strong at code, cheaper.
+  develop:     sonnet
+
+  # Mechanical verification (use haiku for cheap, purely mechanical checks).
+  verify:      sonnet
+
+defaults:
+  # How the simple(<=3h)/complex lane is chosen.
+  #   hybrid  = agent assesses and proposes, you confirm   (recommended)
+  #   declare = you state the lane up front
+  #   ask     = agent always asks with no proposal
+  lane: hybrid
+
+  # Subagent execution in the develop stage (complex lane).
+  #   sequential = one task at a time, review checkpoint after each  (recommended)
+  #   parallel   = fan out independent tasks at once
+  # Independent tasks marked in plan.md may run in parallel regardless.
+  develop_execution: sequential
+
+  # Demo capture is opt-in per ticket (--demo flag, or the agent offers
+  # when a ticket looks demo-worthy).
+  demo: off
+
+paths:
+  # Process files (gitignored). {project} = repo root, {ticket} = TICKET-ID.
+  plans: "{project}/plans/{ticket}"
+  # Throwaway/temp files (outside any repo).
+  tmp:   "~/code/tribe/tmp/{project}/{ticket}"

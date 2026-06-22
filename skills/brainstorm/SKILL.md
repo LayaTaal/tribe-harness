@@ -1,0 +1,48 @@
+---
+name: brainstorm
+description: Invoked by the ticket orchestrator on the complex lane to explore solution approaches before planning. Not a standalone entry point — the ticket skill calls this; do not trigger it on its own.
+---
+
+# Brainstorm a solution (complex lane)
+
+Explore the solution space for a ticket before committing to a plan. Tailored and
+lightweight — a focused exploration, not a research project.
+
+## Process
+
+1. **Frame the problem.** State what success looks like, the constraints (existing
+   patterns, performance, editors/users, timeline), and any non-goals.
+2. **Generate 2–3 distinct approaches.** Genuinely different directions, not variations
+   of one. For each: how it works, what it touches, pros, cons, risks, rough effort.
+3. **Recommend one**, with the reasoning for choosing it over the others. Lead with the
+   recommendation.
+4. **Discuss with the user.** Push back if they lean toward an approach with real
+   downsides. Adjust based on their context.
+
+## Output
+
+Write `plans/<TICKET-ID>/brainstorm.md` (gitignored — see
+`references/file-organization.md`):
+
+```markdown
+# Brainstorm — <TICKET-ID>: <summary>
+
+## Problem & constraints
+...
+
+## Approaches
+### A. <name>  — RECOMMENDED
+How / touches / pros / cons / risk / effort
+
+### B. <name>
+...
+
+## Decision
+Chose A because ... (over B/C because ...)
+```
+
+If demo capture is on, the chosen approach + rationale becomes an "Approach chosen"
+entry in `demo-log.md` (see `references/demo-capture.md`).
+
+After this, control returns to the orchestrator, which may offer `grill-me` on the
+approach, then moves to the `plan` stage.
