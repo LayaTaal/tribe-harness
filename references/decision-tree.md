@@ -51,7 +51,7 @@ digraph ticket_workflow {
 | Brainstorm   | skipped                      | `brainstorm.md`, optional grill-me       |
 | Plan         | brief inline plan            | `plan.md` with discrete tasks            |
 | Develop      | inline                       | subagent per task, review checkpoint     |
-| Review       | quick self-review            | independent review agent → `review.md`   |
+| Review       | self-review (escalates to independent agent if risk grows) | independent review agent → `review.md` |
 | Demo capture | opt-in                       | opt-in                                   |
 | PR + testing | always (delegated to tribe)  | always (delegated to tribe)              |
 

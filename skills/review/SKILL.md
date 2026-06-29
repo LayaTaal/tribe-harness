@@ -13,9 +13,19 @@ The orchestrator dispatches this as a **separate agent** (fresh context, model p
 `config.yml`) so the review isn't biased by the implementation reasoning. Write findings
 to `plans/<TICKET-ID>/review.md`.
 
-## Simple lane — quick self-review
+## Simple lane — quick self-review (with escalation)
 
 A focused pass over the diff inline; no separate doc unless something notable turns up.
+
+**Escalate to an independent subagent review** (as in the complex lane) before the
+commit/PR gate if the change outgrew the simple-lane assumptions:
+
+- it touched multiple files, or shared/core code other features depend on;
+- the diff is materially larger than the estimate assumed;
+- it edited tests, config, schema, or anything with regression blast radius;
+- you're not confident a self-review would catch a mistake here.
+
+Cheaper than shipping a regression — and these are exactly the cases self-review misses.
 
 ## What to look for
 

@@ -20,6 +20,7 @@ skills/
   brainstorm/  # invoked by ticket (complex lane)
   plan/        # invoked by ticket
   review/      # invoked by ticket (independent agent on complex lane)
+  handoff/     # /handoff — writes a resume doc to the project's .scratch/
 references/    # develop, verify, subagents, demo-capture, file-organization,
                # decision-tree, platform/*  (read by the orchestrator)
 config.yml     # model policy + defaults
@@ -51,10 +52,12 @@ The orchestrator assesses simple vs complex and asks you to confirm before worki
 **Keeps (delegates to — do not reimplement):**
 - Tribe `git-workflow` (branches/PRs), `jira-ticket-standard` (writing tickets),
   `jira-testing-instructions` (QA steps on Jira).
-- Matt Pocock's `grill-me` and `handoff` (already symlinked in `~/.agents/skills`).
+- Matt Pocock's `grill-me` (already symlinked in `~/.agents/skills`).
 - Jira access via the Atlassian MCP.
 
 **Replaces:**
+- Matt Pocock's `handoff` — superseded by this harness's own `handoff` (writes to the
+  project's `.scratch/`; invoked manually or proactively after large chunks of work).
 - `ticket-autopilot` — superseded by this collaborative orchestrator.
 - The Superpowers plugin — its per-ticket-relevant behavior is folded into this
   harness's skills + references.
@@ -67,8 +70,8 @@ The orchestrator assesses simple vs complex and asks you to confirm before worki
    `systematic-debugging`, `test-driven-development`, `verification-before-completion`,
    `executing-plans`, `subagent-driven-development`, `writing-skills`, worktree helpers.
    The per-ticket flow's needs live here (`references/develop.md`, `verify.md`,
-   `subagents.md`); port anything else **as you miss it**. `grill-me`/`handoff` survive
-   (separate symlinks).
+   `subagents.md`); port anything else **as you miss it**. `grill-me` survives (separate
+   symlink); `handoff` now lives in this harness.
 
 ## Portability
 

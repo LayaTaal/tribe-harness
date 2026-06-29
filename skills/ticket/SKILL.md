@@ -17,19 +17,18 @@ controls how much ceremony each stage gets. Config (model policy, defaults) is i
 
 ## Task progress
 
-Track these as todos and work them in order:
+Track these as todos and work them in order. Keep a visible todo list in the chat, and mark them off as you complete them.
 
-- [ ] 1. Fetch the ticket from Jira
-- [ ] 2. Understand the request; flag questions / missing scope / blockers
-- [ ] 3. Assess the lane (simple <=3h vs complex) and confirm with the user
-- [ ] 4. (complex) Brainstorm → `brainstorm.md`; (simple) skip
-- [ ] 5. Plan: (complex) `plan.md` with discrete tasks; (simple) brief inline plan
-- [ ] 6. Develop (per `references/develop.md`; complex → subagents per `references/subagents.md`)
-- [ ] 7. Verify behavior (per `references/verify.md`)
-- [ ] 8. Review: (complex) independent agent → `review.md`; (simple) quick self-review
-- [ ] 9. Iterate 6–8 until satisfied
-- [ ] 10. Open the PR (delegate to `git-workflow`)
-- [ ] 11. Add testing instructions to Jira (delegate to `jira-testing-instructions`)
+- [ ] 1. Evaluate the ticket
+- [ ] 2. (complex) Brainstorm → `brainstorm.md`; (simple) skip
+- [ ] 3. Plan: (complex) `plan.md` with discrete tasks; (simple) brief inline plan
+- [ ] 4. Develop (per `references/develop.md`; complex → subagents per `references/subagents.md`)
+- [ ] 5. Verify behavior (per `references/verify.md`)
+- [ ] 6. Review: (complex) independent agent → `review.md`; (simple) quick self-review
+- [ ] 7. Iterate 4–6 until satisfied
+- [ ] 8. Open the PR (delegate to `git-workflow`)
+- [ ] 9. Add testing instructions to Jira (delegate to `jira-testing-instructions`)
+- [ ] 10. Write a handoff (delegate to `handoff` → `.scratch/`) so the work can resume cleanly
 
 ## Stage detail
 
@@ -64,7 +63,10 @@ from `config.yml`. Simple lane: build inline.
 before claiming anything works. Capture screenshots if demo capture is on.
 
 **8. Review.** Complex → dispatch an **independent** review agent (fresh eyes, model per
-policy) via the `review` sub-skill → `review.md`. Simple → quick self-review. Look for
+policy) via the `review` sub-skill → `review.md`. Simple → quick self-review, but
+**escalate to an independent review agent** if the change outgrew the simple-lane
+assumptions (multiple files, shared/core code, bigger diff than estimated, edits to
+tests/config/schema). Either way, review runs **before** the PR/commit gate. Look for
 bugs, regressions, dead/duplicated code, and simplifications.
 
 **9. Iterate.** Loop 6–8 until you and the user are satisfied.
