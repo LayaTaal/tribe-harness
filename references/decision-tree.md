@@ -23,6 +23,8 @@ digraph ticket_workflow {
 
   develop    [label="Develop (refs/develop.md)\ntest-first where it fits;\nmatch project's existing testing"];
   verify     [label="Verify behavior (refs/verify.md)\nbrowser / API / WP-CLI"];
+  gate       [label="Quality gate (refs/quality-gate.md)\nlint / build / test must pass"];
+  gatecheck  [shape=diamond, label="Green?\n(<=2 fix attempts)"];
   review_c   [label="review sub-skill\nINDEPENDENT agent -> plans/ID/review.md"];
   review_s   [label="review sub-skill\nquick self-review"];
   satisfied  [shape=diamond, label="Satisfied?"];
@@ -37,7 +39,9 @@ digraph ticket_workflow {
   brainstorm->grill1->plan_c->grill2->develop;
   confirm->plan_s [label="simple"]; plan_s->develop;
   develop->verify;
-  verify->review_c [label="complex"]; verify->review_s [label="simple"];
+  verify->gate->gatecheck;
+  gatecheck->develop [label="no (fix; pause user if it persists)"];
+  gatecheck->review_c [label="complex"]; gatecheck->review_s [label="simple"];
   review_c->satisfied; review_s->satisfied;
   satisfied->develop [label="no, iterate"]; satisfied->pr [label="yes"];
   pr->testing->done;
@@ -51,6 +55,7 @@ digraph ticket_workflow {
 | Brainstorm   | skipped                      | `brainstorm.md`, optional grill-me       |
 | Plan         | brief inline plan            | `plan.md` with discrete tasks            |
 | Develop      | inline                       | subagent per task, review checkpoint     |
+| Quality gate | lint/build/test green (≤2 fix attempts, else pause) | same |
 | Review       | self-review (escalates to independent agent if risk grows) | independent review agent → `review.md` |
 | Demo capture | opt-in                       | opt-in                                   |
 | PR + testing | always (delegated to tribe)  | always (delegated to tribe)              |

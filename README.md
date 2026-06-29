@@ -62,6 +62,14 @@ The orchestrator assesses simple vs complex and asks you to confirm before worki
 - The Superpowers plugin — its per-ticket-relevant behavior is folded into this
   harness's skills + references.
 
+## Non-goals
+
+- **Not an autopilot.** No spec-to-merged-PR autonomy. The user approves before code is
+  written and before any Jira write or PR — always. The quality gate
+  (`references/quality-gate.md`) gives review/PR a green baseline and stops after two
+  failed fix attempts; it does **not** auto-merge or remove a human checkpoint. The whole
+  point of the harness is a collaborative partner, not a hands-off pipeline.
+
 ## Migration (staged, low-risk)
 
 1. `./install.sh`, then run a few real tickets through `/ticket`.
@@ -80,10 +88,7 @@ Skills are written in terms of *actions*, not tool names; platform specifics liv
 stub is in place so a Copilot CLI adapter is a mapping task, not a rewrite. Copilot
 Desktop is best-effort.
 
-## Roadmap (v2)
+## Roadmap
 
-- `/demo` — turn a ticket's `demo-log.md` + assets into a presentation/walkthrough
-  (v1 captures the moments; v2 builds the deck).
-- Weekly prioritization, morning Slack/Jira triage, learning-time and EOD-review routines.
-- A built + verified Copilot CLI adapter.
-- Promote to the team via `promote-skill` once it's proven.
+See [`ROADMAP.md`](ROADMAP.md) for parked features and ideas (parallel tickets, `/demo`,
+triage routines, a Copilot CLI adapter, team promotion).
