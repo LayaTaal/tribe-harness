@@ -21,6 +21,7 @@ skills/
   plan/        # invoked by ticket
   review/      # invoked by ticket (independent agent on complex lane)
   handoff/     # /handoff — writes a resume doc to the project's .scratch/
+  demo/        # /demo — turns demo-log.md + assets into a shareable walkthrough doc
 references/    # develop, verify, subagents, demo-capture, file-organization,
                # decision-tree, platform/*  (read by the orchestrator)
 config.yml     # model policy + defaults
@@ -40,9 +41,10 @@ Sonnet subagents — see `config.yml`).
 ## Usage
 
 ```
-/ticket PROJ-123            # work a ticket end-to-end
-/ticket PROJ-123 --demo     # ...and capture demo highlights along the way
+/ticket PROJ-123            # work a ticket end-to-end (demo moments buffer automatically;
+                            # you decide whether to keep them just before the PR)
 /estimate PROJ-123          # just estimate it (read-only)
+/demo PROJ-123              # turn a kept demo-log into a shareable walkthrough doc
 ```
 
 The orchestrator assesses simple vs complex and asks you to confirm before working.
@@ -90,5 +92,5 @@ Desktop is best-effort.
 
 ## Roadmap
 
-See [`ROADMAP.md`](ROADMAP.md) for parked features and ideas (parallel tickets, `/demo`,
-triage routines, a Copilot CLI adapter, team promotion).
+See [`ROADMAP.md`](ROADMAP.md) for parked features and ideas (parallel tickets, triage
+routines, a Copilot CLI adapter, team promotion).

@@ -1,43 +1,60 @@
 # Demo capture
 
-Captures the ephemeral "how we got here" moments during a ticket so you can later build
-a demo/walkthrough for engineers, the team, or a client. **v1 captures only** — turning
-the log into a presentation is a future `/demo` utility.
+Captures the ephemeral "how we got here" moments during **every** ticket so you can
+decide, once the work is done, whether it's worth turning into a shareable walkthrough
+(`skills/demo/`). No upfront decision required — you don't have to know at the start of
+a ticket whether it'll turn out to be demo-worthy.
 
-## When it's on
+## Always on, no flag
 
-Opt-in per ticket:
-- `/ticket PROJ-123 --demo`, or
-- the orchestrator offers it when a ticket looks demo-worthy (notable feature, tricky
-  problem, client-visible change) and you accept.
+Both lanes, every ticket, no `--demo` flag to remember. The harness buffers as it goes;
+you decide once, at the end, whether to keep it.
 
-Off by default — routine tickets don't get a demo log.
+## Where the buffer lives (until you decide)
 
-## Where it goes
+The draft lives in scratch (`paths.tmp` in `config.yml`), **not** `plans/`, so a routine
+ticket that never becomes a demo leaves nothing behind in the project:
 
 ```
-<project>/plans/<TICKET-ID>/
-  demo-log.md
-  assets/            # screenshots, before/after images
+<tmp-path>/            # {project}/{ticket}, per file-organization.md
+  demo-log-draft.md
+  assets/              # screenshots stashed during verify, before/after images
 ```
-
-Both are gitignored with the rest of `plans/` (see `file-organization.md`).
 
 ## Capture mode: hybrid
 
-**Auto-logged** at natural checkpoints (no prompting):
+**Auto-logged** at natural checkpoints (no prompting), appended to the draft:
 
 - **Approach chosen** — the direction taken and *why* over the alternatives (from brainstorm).
 - **Problem solved** — a non-obvious obstacle and how it was resolved.
 - **Before / after** — the headline change, ideally with a screenshot of each state.
-- **Verification screenshots** — images captured during the verify stage land in `assets/`.
+- **Verification screenshots** — every browser-verified check stashes a screenshot to
+  the draft's `assets/` automatically (see `verify.md`) — cheap, since verification
+  already loads the page; no separate decision needed to get it.
 
 **Manual** — any time you say "capture this" (or similar), append the current moment
 with a one-line note of why it matters.
 
+## The decision
+
+Once, right before opening the PR (see `skills/ticket/SKILL.md`), the orchestrator asks:
+
+> "Want to keep the demo log for this one? (N moments, M screenshots buffered)"
+
+- **Keep** — move `demo-log-draft.md` → `plans/<TICKET-ID>/demo-log.md` and
+  `assets/` → `plans/<TICKET-ID>/assets/` (both gitignored, see `file-organization.md`).
+  Run `/demo` on it whenever you're ready to write it up.
+- **Discard** — leave the draft in scratch (it rots there like other tmp output) or
+  delete it. Nothing lands in the project.
+
+If a ticket obviously turns out demo-worthy mid-flight, you can say so early and the
+orchestrator treats it the same as an early "keep" — the buffering doesn't change,
+only when it gets promoted.
+
 ## Format
 
-`demo-log.md` is a chronological highlight reel. Keep entries short and presentation-ready:
+`demo-log.md` (and its draft) is a chronological highlight reel. Keep entries short and
+presentation-ready:
 
 ```markdown
 # Demo log — PROJ-123: Add Featured badge to event cards

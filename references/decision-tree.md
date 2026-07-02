@@ -28,6 +28,7 @@ digraph ticket_workflow {
   review_c   [label="review sub-skill\nINDEPENDENT agent -> plans/ID/review.md"];
   review_s   [label="review sub-skill\nquick self-review"];
   satisfied  [shape=diamond, label="Satisfied?"];
+  demodecide [label="Keep or discard buffered demo log?\n(refs/demo-capture.md)"];
   pr         [label="Open PR (delegate: tribe git-workflow)"];
   testing    [label="Testing instructions\n(delegate: tribe jira-testing-instructions)"];
   done       [shape=oval, label="Done"];
@@ -43,7 +44,8 @@ digraph ticket_workflow {
   gatecheck->develop [label="no (fix; pause user if it persists)"];
   gatecheck->review_c [label="complex"]; gatecheck->review_s [label="simple"];
   review_c->satisfied; review_s->satisfied;
-  satisfied->develop [label="no, iterate"]; satisfied->pr [label="yes"];
+  satisfied->develop [label="no, iterate"]; satisfied->demodecide [label="yes"];
+  demodecide->pr;
   pr->testing->done;
 }
 ```
@@ -57,8 +59,8 @@ digraph ticket_workflow {
 | Develop      | inline                       | subagent per task, review checkpoint     |
 | Quality gate | lint/build/test green (≤2 fix attempts, else pause) | same |
 | Review       | self-review (escalates to independent agent if risk grows) | independent review agent → `review.md` |
-| Demo capture | opt-in                       | opt-in                                   |
+| Demo capture | always buffered; one keep/discard decision before PR | same                              |
 | PR + testing | always (delegated to tribe)  | always (delegated to tribe)              |
 
-Throughout, **demo capture** (when on) appends notable moments to `demo-log.md` —
-see `demo-capture.md`.
+Throughout, **demo capture** always buffers notable moments to a scratch draft; you
+decide once, before the PR, whether to keep it as `demo-log.md` — see `demo-capture.md`.

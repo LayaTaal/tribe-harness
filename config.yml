@@ -37,10 +37,6 @@ defaults:
   # Independent tasks marked in plan.md may run in parallel regardless.
   develop_execution: sequential
 
-  # Demo capture is opt-in per ticket (--demo flag, or the agent offers
-  # when a ticket looks demo-worthy).
-  demo: off
-
 paths:
   # Process files (gitignored). {project} = repo root, {ticket} = TICKET-ID.
   plans: "{project}/plans/{ticket}"

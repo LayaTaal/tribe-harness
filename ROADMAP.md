@@ -26,8 +26,16 @@ code. Likely leans on git worktrees per ticket.
 
 ## Smaller / already-planned
 
-- `/demo` — turn a ticket's `demo-log.md` + assets into a presentation/walkthrough
-  (v1 captures the moments; v2 builds the deck).
 - Weekly prioritization, morning Slack/Jira triage, learning-time and EOD-review routines.
 - A built + verified Copilot CLI adapter.
 - Promote to the team via `promote-skill` once it's proven.
+- **`/demo` slide-deck rendering** — v1 (`skills/demo/`) generates a single markdown
+  walkthrough doc from one or more tickets' `demo-log.md` + assets. Sections are written
+  slide-sized (one idea per `##`) specifically so a future pass can feed the doc straight
+  into Marp or reveal.js for a live-presentable deck without a rewrite. Not needed until
+  someone actually wants to present live rather than share the doc async.
+
+## Done
+
+- `/demo` — turns a ticket's (or several tickets') `demo-log.md` + assets into a
+  markdown walkthrough doc. See `skills/demo/`.

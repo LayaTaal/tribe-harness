@@ -6,8 +6,9 @@ that proves the behavior the ticket asked for.
 ## Methods
 
 - **Browser** — for UI/frontend/theming. Load the affected page, exercise the change,
-  confirm it matches the design/AC. Capture a screenshot if demo capture is on, or if it
-  helps the testing instructions. Check the obvious responsive/empty/error states.
+  confirm it matches the design/AC. Always stash a screenshot to the demo draft
+  (`demo-capture.md`), and capture one for the testing instructions when it helps. Check
+  the obvious responsive/empty/error states.
 - **API request** — for endpoints, REST/GraphQL, webhooks. Send a real request, assert
   the response shape and status. Include an error/edge case, not just the happy path.
 - **WP-CLI** — for WordPress data/state (options, posts, meta, migrations). Use the

@@ -12,8 +12,8 @@ Live alongside the code they describe, under the project repo:
   brainstorm.md     # complex lane only — approaches + chosen direction
   plan.md           # the development plan (discrete tasks)
   review.md         # code review findings
-  demo-log.md       # only when demo capture is on
-  assets/           # only when demo capture is on — screenshots, before/after
+  demo-log.md       # only if the end-of-ticket demo decision was "keep" (demo-capture.md)
+  assets/           # same — promoted from the scratch draft on "keep"
 ```
 
 **These must not be committed.** Before writing the first file for a ticket:
@@ -39,6 +39,10 @@ artifacts) goes outside the project tree:
 
 Create the directory as needed (it does not exist yet). Non-tribe projects mirror
 under the same `~/code/tribe/tmp` root using the project's directory name.
+
+The demo-log **draft** also lives here (`demo-log-draft.md` + `assets/`) until the
+end-of-ticket keep/discard decision — see `demo-capture.md`. On "keep" it's promoted
+into `plans/<TICKET-ID>/`; on "discard" it just rots here with everything else.
 
 ## Rule of thumb
 

@@ -9,7 +9,7 @@ You are a collaborative engineering partner, not an autopilot. Drive the ticket
 **with** the user: think out loud, push back when something seems wrong, surface
 questions early, and review the work critically. Never silently guess past ambiguity.
 
-Entry: `/ticket <TICKET-ID> [--demo]`.
+Entry: `/ticket <TICKET-ID>`.
 
 Read `references/decision-tree.md` for the full flow. The lane (simple vs complex)
 controls how much ceremony each stage gets. Config (model policy, defaults) is in
@@ -29,9 +29,10 @@ mark them off as you complete them. **As you enter each stage, say which step yo
 - [ ] 6. Quality gate (lint/build/test must pass; per `references/quality-gate.md`)
 - [ ] 7. Review: (complex) independent agent → `review.md`; (simple) quick self-review
 - [ ] 8. Iterate 4–7 until satisfied
-- [ ] 9. Open the PR (delegate to `git-workflow`)
-- [ ] 10. Add testing instructions to Jira (delegate to `jira-testing-instructions`)
-- [ ] 11. Write a handoff (delegate to `handoff` → `.scratch/`) so the work can resume cleanly
+- [ ] 9. Decide: keep or discard the buffered demo log (`references/demo-capture.md`)
+- [ ] 10. Open the PR (delegate to `git-workflow`)
+- [ ] 11. Add testing instructions to Jira (delegate to `jira-testing-instructions`)
+- [ ] 12. Write a handoff (delegate to `handoff` → `.scratch/`) so the work can resume cleanly
 
 ## Stage detail
 
@@ -47,8 +48,8 @@ PM. Do not proceed on guesses. Resolve, then continue.
 **3. Assess + confirm lane.** Using the estimate core (`skills/estimate`), judge whether
 this is simple (<=3h: isolated, clear AC, low risk) or complex. Propose the lane with a
 one-line rationale and let the user confirm or override (`config.yml` `defaults.lane`).
-If `--demo` was passed, enable demo capture now; otherwise, if the ticket looks
-demo-worthy, offer it. When on, follow `references/demo-capture.md` throughout.
+Demo capture buffers automatically from here — no flag or upfront decision needed; follow
+`references/demo-capture.md` throughout.
 
 **4. Brainstorm (complex only).** Invoke the `brainstorm` sub-skill → writes
 `brainstorm.md`. Offer to stress-test the chosen approach with `grill-me`.
@@ -64,7 +65,8 @@ task per `references/subagents.md`, sequential with a review checkpoint, using t
 from `config.yml`. Simple lane: build inline.
 
 **7. Verify.** Follow `references/verify.md`. Observe real behavior (browser/API/WP-CLI)
-before claiming anything works. Capture screenshots if demo capture is on.
+before claiming anything works. Browser verification always stashes a screenshot to the
+demo draft (`references/demo-capture.md`).
 
 **8. Quality gate.** Run the project's lint/build/test (commands from its
 `AGENTS.md`/`CLAUDE.md`) per `references/quality-gate.md`. It must pass before review/PR.
@@ -81,10 +83,14 @@ bugs, regressions, dead/duplicated code, and simplifications.
 
 **10. Iterate.** Loop 6–9 until you and the user are satisfied.
 
-**11. PR.** **Confirm with the user before opening the PR.** Then delegate to
+**11. Demo decision.** Ask once whether to keep the buffered demo log
+(`references/demo-capture.md`). Keep → promote the draft to `plans/<TICKET-ID>/`.
+Discard → leave it in scratch. Either way, don't block on this — a quick yes/no.
+
+**12. PR.** **Confirm with the user before opening the PR.** Then delegate to
 `git-workflow` for branch naming and PR format. Never invent conventions it owns.
 
-**12. Testing instructions.** **Confirm before writing to Jira.** Then delegate to
+**13. Testing instructions.** **Confirm before writing to Jira.** Then delegate to
 `jira-testing-instructions`. Link the PR on the ticket and transition it per the team's
 flow — these are Jira writes too, so they fall under the same confirm.
 

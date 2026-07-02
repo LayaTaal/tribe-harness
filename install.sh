@@ -31,5 +31,5 @@ for src in "$SKILLS_SRC"/*/; do
 done
 
 echo
-echo "Done. Entry points: /ticket, /estimate."
+echo "Done. Entry points: /ticket, /estimate, /handoff, /demo."
 echo "brainstorm, plan, review are invoked by the ticket orchestrator."
