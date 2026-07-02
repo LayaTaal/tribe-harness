@@ -5,31 +5,36 @@ set -euo pipefail
 # Re-run anytime; it repoints stale links and refuses to clobber real files.
 
 HARNESS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-SKILLS_SRC="$HARNESS_DIR/skills"
-SKILLS_DST="${CLAUDE_HOME:-$HOME/.claude}/skills"
+CLAUDE_DIR="${CLAUDE_HOME:-$HOME/.claude}"
 
-mkdir -p "$SKILLS_DST"
+link_dir() {
+  local src_dir="$1" dst_dir="$2"
+  mkdir -p "$dst_dir"
+  for src in "$src_dir"/*; do
+    name="$(basename "$src")"
+    target="${src%/}"
+    dst="$dst_dir/$name"
 
-for src in "$SKILLS_SRC"/*/; do
-  name="$(basename "$src")"
-  target="${src%/}"
-  dst="$SKILLS_DST/$name"
-
-  if [ -L "$dst" ]; then
-    if [ "$(readlink "$dst")" = "$target" ]; then
-      echo "ok     $name (already linked)"
+    if [ -L "$dst" ]; then
+      if [ "$(readlink "$dst")" = "$target" ]; then
+        echo "ok     $name (already linked)"
+      else
+        ln -sfn "$target" "$dst"
+        echo "relink $name"
+      fi
+    elif [ -e "$dst" ]; then
+      echo "SKIP   $name — a non-symlink already exists at $dst (remove it first)" >&2
     else
-      ln -sfn "$target" "$dst"
-      echo "relink $name"
+      ln -s "$target" "$dst"
+      echo "link   $name"
     fi
-  elif [ -e "$dst" ]; then
-    echo "SKIP   $name — a non-symlink already exists at $dst (remove it first)" >&2
-  else
-    ln -s "$target" "$dst"
-    echo "link   $name"
-  fi
-done
+  done
+}
+
+link_dir "$HARNESS_DIR/skills" "$CLAUDE_DIR/skills"
+link_dir "$HARNESS_DIR/agents" "$CLAUDE_DIR/agents"
 
 echo
 echo "Done. Entry points: /ticket, /estimate, /handoff, /demo."
 echo "brainstorm, plan, review are invoked by the ticket orchestrator."
+echo "Subagent roles: developer, reviewer, researcher (see references/subagents.md)."

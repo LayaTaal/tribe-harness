@@ -15,7 +15,8 @@ named for its stage (develop → sonnet by default).
 For each task in `plan.md`, in order:
 
 1. **Brief the subagent** with: scope (just this task), acceptance criteria, the files
-   it should touch, relevant patterns to follow, and the model from the policy.
+   it should touch, relevant patterns to follow, and the model from the policy. Dispatch
+   as the `developer` role (`subagent_type: developer` — see `references/platform/claude-code.md`).
 2. Let it implement the single task.
 3. **Checkpoint:** review its result before moving on — does it meet the acceptance
    criteria? Any drift, regression, or shortcut? Integrate or send back.

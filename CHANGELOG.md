@@ -3,6 +3,28 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions before 1.1.0
 predate this file — see `git log` for that history.
 
+## [1.2.0] - 2026-07-02
+
+### Added
+- `agents/` — tribe-harness's own subagent roles (`developer`, `reviewer`, `researcher`),
+  symlinked into `~/.claude/agents` by `install.sh` alongside the existing skills. Keeps
+  subagent dispatch on roles the harness owns instead of external agent types that may
+  not exist in every install.
+- `skills/brainstorm/SKILL.md` — optional research fan-out step: dispatch one
+  `researcher` subagent per independent investigation domain when a ticket spans
+  multiple unfamiliar subsystems, before framing the problem.
+- `skills/plan/SKILL.md` — option to slice tasks by independently-shippable increment,
+  not just file overlap, for tickets with more than one shippable piece.
+
+### Changed
+- `references/subagents.md` — the develop stage now dispatches the `developer` role
+  explicitly instead of a bare `Agent` call.
+- `skills/review/SKILL.md` — independent review now dispatches the `reviewer` role
+  (read-only — flags issues, never fixes them) instead of a bare `Agent` call.
+- `references/platform/claude-code.md` — documents dispatching by role.
+- `install.sh` — refactored into a reusable symlink helper so it can link both
+  `skills/` and `agents/`.
+
 ## [1.1.0] - 2026-07-02
 
 ### Added

@@ -40,6 +40,11 @@ Anything to watch; how to back out.
 Mark a task `[parallel-safe]` only if it shares no files and no ordering dependency with
 other parallel tasks; otherwise `[sequential]`.
 
+For tickets with more than one independently-shippable piece, consider slicing tasks by
+increment (each independently implementable and testable) rather than only by file —
+mirrors how larger specs get broken into per-story phases. Skip this for single-concern
+tickets; it's not worth the ceremony.
+
 ## Simple lane → brief inline plan
 
 No file. State, in a few lines: what you'll change, where, and how you'll verify it.

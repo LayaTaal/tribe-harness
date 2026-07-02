@@ -9,11 +9,19 @@ concrete Claude Code mechanisms. Other platforms get their own file in this dire
 | Fetch / update a Jira ticket        | Atlassian MCP tools (`getJiraIssue`, `editJiraIssue`, `addCommentToJiraIssue`, `transitionJiraIssue`, `searchJiraIssuesUsingJql`) |
 | Dispatch a subagent (with a model)  | `Agent` tool — set `subagent_type` and `model` (`opus`/`sonnet`/`haiku`/`fable`) |
 | Run multiple subagents in parallel  | Multiple `Agent` calls in one message, or a `Workflow`   |
+| Dispatch by role                    | `Agent` tool, `subagent_type` = one of the harness's own roles (below) |
 | Read / write files                  | `Read`, `Write`, `Edit`                                  |
 | Run a command (lint/build/wp-cli)   | `Bash`                                                   |
 | Browser verification + screenshots  | `playwright-cli` skill (or chrome devtools MCP)          |
 | Stress-test a plan                  | Matt Pocock's `grill-me` skill                           |
 | Hand off context                    | Matt Pocock's `handoff` skill                            |
+
+## Dispatching by role
+
+Tribe-harness ships its own subagent roles (`agents/`, symlinked to `~/.claude/agents` by
+`install.sh`): `developer`, `reviewer`, `researcher`. Dispatch with the `Agent` tool's
+`subagent_type` set to the matching role name — never reference agent types from outside
+this repo (e.g. project-local custom agents); they may not exist in every install.
 
 ## Delegations (kept tribe/Pocock skills — do not reimplement)
 

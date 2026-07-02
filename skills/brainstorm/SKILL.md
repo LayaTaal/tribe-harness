@@ -10,6 +10,13 @@ lightweight — a focused exploration, not a research project.
 
 ## Process
 
+0. **Fan out research, if the ticket spans multiple unfamiliar subsystems.** When you'd
+   need to look in more than one place you don't already understand (e.g. a design file,
+   an existing subsystem's architecture, a precedent elsewhere in the codebase), dispatch
+   one `researcher` subagent per independent investigation domain, in parallel (one
+   message, multiple calls) — each scoped to a single question. Fold their findings into
+   the constraints below. Skip this if you already know the area and there's nothing to
+   look up.
 1. **Frame the problem.** State what success looks like, the constraints (existing
    patterns, performance, editors/users, timeline), and any non-goals.
 2. **Generate 2–3 distinct approaches.** Genuinely different directions, not variations

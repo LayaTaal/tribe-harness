@@ -9,9 +9,10 @@ Review the diff for correctness and quality before the work is called done.
 
 ## Complex lane — independent review
 
-The orchestrator dispatches this as a **separate agent** (fresh context, model per
-`config.yml`) so the review isn't biased by the implementation reasoning. Write findings
-to `plans/<TICKET-ID>/review.md`.
+The orchestrator dispatches this as the `reviewer` role (`subagent_type: reviewer` — see
+`references/platform/claude-code.md`; fresh context, model per `config.yml`, read-only so
+it can flag but not fix) so the review isn't biased by the implementation reasoning.
+Write findings to `plans/<TICKET-ID>/review.md`.
 
 ## Simple lane — quick self-review (with escalation)
 
