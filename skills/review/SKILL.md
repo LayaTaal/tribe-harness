@@ -36,6 +36,8 @@ Cheaper than shipping a regression — and these are exactly the cases self-revi
 - **Reuse & simplification** — duplicated logic, code that an existing utility already
   does, over-engineering, dead/leftover code.
 - **Fit** — matches project patterns; respects `AGENTS.md`/`CLAUDE.md`; lint/build clean.
+- **Design fidelity** — for tickets with linked designs, does the rendered result match
+  the design frames (spot-check via `verify.md`'s breakpoint matrix), not just the code.
 - **Security/data** — only if relevant: input handling, auth/permissions, destructive ops.
 
 ## Output format (`review.md`)

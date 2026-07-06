@@ -19,6 +19,11 @@ lightweight — a focused exploration, not a research project.
    look up.
 1. **Frame the problem.** State what success looks like, the constraints (existing
    patterns, performance, editors/users, timeline), and any non-goals.
+1a. **If the ticket links a design (Figma or similar), produce a complete visual
+   inventory of the target component** — layout, element order, colors/background/chrome,
+   per-breakpoint differences — not only deltas from legacy/current code. Delta-framing
+   silently converts "not mentioned" into "already correct." Explicitly list anything
+   "assumed already correct in the codebase" so the user can veto the assumption.
 2. **Generate 2–3 distinct approaches.** Genuinely different directions, not variations
    of one. For each: how it works, what it touches, pros, cons, risks, rough effort.
 3. **Recommend one**, with the reasoning for choosing it over the others. Lead with the
@@ -36,6 +41,10 @@ Write `plans/<TICKET-ID>/brainstorm.md` (gitignored — see
 
 ## Problem & constraints
 ...
+
+## Visual inventory  (design tickets only)
+Layout / element order / colors, background, chrome / per-breakpoint differences.
+Assumed already correct in the codebase: <list, so the user can veto>
 
 ## Approaches
 ### A. <name>  — RECOMMENDED

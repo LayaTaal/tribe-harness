@@ -19,7 +19,7 @@ concrete Claude Code mechanisms. Other platforms get their own file in this dire
 ## Dispatching by role
 
 Tribe-harness ships its own subagent roles (`agents/`, symlinked to `~/.claude/agents` by
-`install.sh`): `developer`, `reviewer`, `researcher`. Dispatch with the `Agent` tool's
+`install.sh`): `developer`, `reviewer`, `researcher`, `qa-design`. Dispatch with the `Agent` tool's
 `subagent_type` set to the matching role name — never reference agent types from outside
 this repo (e.g. project-local custom agents); they may not exist in every install.
 

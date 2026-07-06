@@ -37,4 +37,4 @@ link_dir "$HARNESS_DIR/agents" "$CLAUDE_DIR/agents"
 echo
 echo "Done. Entry points: /ticket, /estimate, /handoff, /demo."
 echo "brainstorm, plan, review are invoked by the ticket orchestrator."
-echo "Subagent roles: developer, reviewer, researcher (see references/subagents.md)."
+echo "Subagent roles: developer, reviewer, researcher, qa-design (see references/subagents.md)."

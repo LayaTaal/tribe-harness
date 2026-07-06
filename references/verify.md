@@ -18,6 +18,22 @@ that proves the behavior the ticket asked for.
   test you wrote). Green tests support but do not replace observing behavior for anything
   user-facing.
 
+## Design fidelity (when the ticket links design files)
+
+The design is the spec — the plan's `Accept:` checklist is only an index into it, not a
+substitute. Tokens/AC alone can all be hit while the result still doesn't look like the
+design (element order, chrome, per-breakpoint layout are easy to miss that way).
+
+- Dispatch the `qa-design` role (`references/platform/claude-code.md`) with ONLY the
+  design exports/Figma node IDs + the live URL — never the plan's acceptance list — same
+  fresh-eyes rationale as code review. It reports every visible difference from the
+  design, not a checklist pass/fail.
+- Cover a breakpoint matrix (e.g. 1440 / 1280 / 1024 / 768 / 390, or the project's own
+  breakpoints) across every distinct component state — rest, each dropdown/overlay open,
+  mobile menu states.
+- A "known gap, check later" item is not acceptable here — see `skills/ticket/SKILL.md`
+  Hard rules on silent deferrals.
+
 ## Finding the environment
 
 - Dev URL: check the project's config (e.g. `config/.vip.*.develop.yml`,

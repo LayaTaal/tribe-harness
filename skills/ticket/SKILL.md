@@ -105,3 +105,7 @@ flow — these are Jira writes too, so they fall under the same confirm.
 - Files go where `references/file-organization.md` says; ensure `/plans/` is gitignored.
 - Verify before claiming success; if you couldn't verify, say so.
 - Delegate PRs, testing instructions, and Jira-ticket writing to the tribe skills.
+- If a file this skill references does not resolve, stop and tell the user before
+  improvising that stage.
+- Any spec item known to be unverified or deferred must be surfaced to the user as a
+  question at or before the PR gate — handoff notes are not a parking lot for spec gaps.

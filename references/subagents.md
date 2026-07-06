@@ -37,9 +37,14 @@ Task: <one task from plan.md>
 Acceptance: <how we'll know it's done — testable>
 Files: <paths it should work in>
 Context: <patterns/utilities to reuse; what NOT to touch>
+Design: <Figma node ID/export for the component being built — omit if no linked design>
 Verify: <how to confirm behavior — see verify.md>
 Model: <from config.yml model policy>
 ```
+
+For FE tasks with a linked design, add "matches the design frame" as an acceptance item
+alongside any enumerated tokens — tokens alone reproduce a real failure mode: a task can
+hit every named color/spacing value and still not look like the design.
 
 A subagent returns its result to the orchestrator; the orchestrator owns the checkpoint
 and integration. Never let a subagent open the PR or transition Jira — those are
