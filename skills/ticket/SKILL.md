@@ -14,6 +14,7 @@ Entry: `/ticket <TICKET-ID>`.
 Read `references/decision-tree.md` for the full flow. The lane (simple vs complex)
 controls how much ceremony each stage gets. Config (model policy, defaults) is in
 `config.yml`. Platform-specific tool mappings are in `references/platform/claude-code.md`.
+Complex-lane tickets can pause and resume across sessions — see `references/checkpoints.md`.
 
 ## Task progress
 
@@ -36,8 +37,12 @@ mark them off as you complete them. **As you enter each stage, say which step yo
 
 ## Stage detail
 
-**1. Fetch.** Pull summary, description, acceptance criteria, links, and any linked
-tickets via the Jira tools (see platform mapping). Read it fully before reacting.
+**1. Fetch.** Complex lane: first check for `plans/<TICKET-ID>/status.md`
+(`references/checkpoints.md`). If it exists, resume from its recorded stage instead —
+read it and its linked artifacts, sanity-check against reality, and do not re-run fetch/
+understand/brainstorm. Otherwise, pull summary, description, acceptance criteria, links,
+and any linked tickets via the Jira tools (see platform mapping). Read it fully before
+reacting.
 
 **2. Understand + blocker gate.** Restate the request in your own words. Identify
 anything that blocks confident work: unclear AC, missing scope, undefined design,
@@ -59,10 +64,13 @@ tagged tasks (each marked sequential or parallel-safe). Simple → a brief inlin
 doc. Optionally `grill-me` the plan on the complex lane.
 
 **6. Develop.** **Get the user's explicit go-ahead on the plan before writing any
-code — both lanes.** Then follow `references/develop.md` (smallest complete change, follow
-the project, contextual+project-adaptive testing). Complex lane: dispatch a subagent per
-task per `references/subagents.md`, sequential with a review checkpoint, using the model
-from `config.yml`. Simple lane: build inline.
+code — both lanes.** Complex lane: this is also a pause point (`references/checkpoints.md`)
+— write/update status.md and offer to stop here before committing tokens to develop. Then
+follow `references/develop.md` (smallest complete change, follow the project,
+contextual+project-adaptive testing). Complex lane: dispatch a subagent per task per
+`references/subagents.md`, sequential with a review checkpoint, using the model from
+`config.yml` — after each task's checkpoint passes, this is also a pause point on
+multi-task tickets. Simple lane: build inline.
 
 **7. Verify.** Follow `references/verify.md`. Observe real behavior (browser/API/WP-CLI)
 before claiming anything works. Browser verification always stashes a screenshot to the
@@ -74,8 +82,10 @@ On failure, fix and re-run — **bounded to two attempts on the same failure**, 
 and surface it to the user rather than grinding. Not an autopilot: this gate gives the
 review and PR a green baseline, it doesn't replace your judgment.
 
-**9. Review.** Complex → dispatch an **independent** review agent (fresh eyes, model per
-policy) via the `review` sub-skill → `review.md`. Simple → quick self-review, but
+**9. Review.** Complex → this is a pause point (`references/checkpoints.md`) before
+dispatching; write/update status.md and offer to stop here. Then dispatch an
+**independent** review agent (fresh eyes, model per policy) via the `review` sub-skill →
+`review.md`. Simple → quick self-review, but
 **escalate to an independent review agent** if the change outgrew the simple-lane
 assumptions (multiple files, shared/core code, bigger diff than estimated, edits to
 tests/config/schema). Either way, review runs **before** the PR/commit gate. Look for
@@ -87,8 +97,10 @@ bugs, regressions, dead/duplicated code, and simplifications.
 (`references/demo-capture.md`). Keep → promote the draft to `plans/<TICKET-ID>/`.
 Discard → leave it in scratch. Either way, don't block on this — a quick yes/no.
 
-**12. PR.** **Confirm with the user before opening the PR.** Then delegate to
-`git-workflow` for branch naming and PR format. Never invent conventions it owns.
+**12. PR.** **Confirm with the user before opening the PR.** Complex lane: fold the
+checkpoints.md pause into this same confirm rather than asking twice — write/update
+status.md and offer a fresh session here as part of asking whether to proceed. Then
+delegate to `git-workflow` for branch naming and PR format. Never invent conventions it owns.
 
 **13. Testing instructions.** **Confirm before writing to Jira.** Then delegate to
 `jira-testing-instructions`. Link the PR on the ticket and transition it per the team's
@@ -103,6 +115,8 @@ flow — these are Jira writes too, so they fall under the same confirm.
   transitioning a Jira ticket. Surface what you're about to do and wait for the go-ahead.
 - Honor the project's `AGENTS.md`/`CLAUDE.md` and run its lint/build before "done".
 - Files go where `references/file-organization.md` says; ensure `/plans/` is gitignored.
+- Complex lane: on resume, confirm the session model for `session`-tier stages
+  (`references/checkpoints.md`) rather than assuming the fresh session got it right.
 - Verify before claiming success; if you couldn't verify, say so.
 - Delegate PRs, testing instructions, and Jira-ticket writing to the tribe skills.
 - If a file this skill references does not resolve, stop and tell the user before
