@@ -13,6 +13,8 @@ Live alongside the code they describe, under the project repo:
   plan.md           # the development plan (discrete tasks)
   status.md         # complex lane only — resume cursor (references/checkpoints.md)
   review.md         # code review findings
+  manual-dqa-N.md   # one per round — human QA pass, both lanes (skills/manual-dqa/SKILL.md)
+  assets/manual-dqa-N/  # that round's screenshots — separate from demo's flat assets/
   demo-log.md       # only if the end-of-ticket demo decision was "keep" (demo-capture.md)
   assets/           # same — promoted from the scratch draft on "keep"
 ```

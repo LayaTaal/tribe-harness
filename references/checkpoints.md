@@ -13,7 +13,7 @@ for tasks; status.md just says where things stand:
 
 ```markdown
 # Status — <TICKET-ID>
-stage: develop (task T3 of 5)
+stage: develop (task T3 of 5)   # or e.g. "manual-dqa (round 2)"
 lane: complex
 branch: <branch name>
 session model expected: opus   # config.yml's `session`-tier stages (orchestrate/understand/estimate)
@@ -42,8 +42,11 @@ Not after every stage — only where a fresh session materially pays off:
 2. **Between develop task-checkpoints**, on multi-task tickets (after a subagent's task
    passes the checkpoint review, before dispatching the next).
 3. **Before review.**
-4. **Before PR/testing instructions** — right after the demo keep/discard decision
-   (`skills/ticket/SKILL.md` step 11). This piggybacks on the approval gate that already
+4. **Between manual DQA rounds** (`skills/manual-dqa/SKILL.md`) — after the user reports
+   findings, before dispatching fixes, and again once a round comes back clean, before
+   the demo decision.
+5. **Before PR/testing instructions** — right after the demo keep/discard decision
+   (`skills/ticket/SKILL.md` step 10). This piggybacks on the approval gate that already
    exists there ("confirm before opening the PR") — one prompt, not two, since both are
    asking "ready to take an outward action?"
 
