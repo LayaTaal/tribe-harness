@@ -19,7 +19,10 @@ For each task in `plan.md`, in order:
    as the `developer` role (`subagent_type: developer` — see `references/platform/claude-code.md`).
 2. Let it implement the single task.
 3. **Checkpoint:** review its result before moving on — does it meet the acceptance
-   criteria? Any drift, regression, or shortcut? Integrate or send back.
+   criteria? Any drift, regression, or shortcut? Integrate or send back. Once it passes,
+   tick the task's box on `plan.md` and bump the stage pointer in `plans/<TICKET-ID>/
+   status.md` (`references/checkpoints.md`) — this is also a pause point on multi-task
+   tickets.
 4. Proceed to the next task.
 
 This catches drift early and keeps you in the loop — the collaborative ethos of the harness.

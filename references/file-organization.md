@@ -11,19 +11,18 @@ Live alongside the code they describe, under the project repo:
 <project>/plans/<TICKET-ID>/
   brainstorm.md     # complex lane only — approaches + chosen direction
   plan.md           # the development plan (discrete tasks)
+  status.md         # complex lane only — resume cursor (references/checkpoints.md)
   review.md         # code review findings
   demo-log.md       # only if the end-of-ticket demo decision was "keep" (demo-capture.md)
   assets/           # same — promoted from the scratch draft on "keep"
 ```
 
-**These must not be committed.** Before writing the first file for a ticket:
+**These must not be committed.** Before writing the first file for a ticket, run this
+(idempotent — safe to run every time, no need to reason through it):
 
-1. Find the project's `.gitignore`.
-2. If it does not already ignore `/plans/`, append a line:
-   ```
-   /plans/
-   ```
-3. If there is no `.gitignore`, create one with that line.
+```bash
+git check-ignore -q plans/ 2>/dev/null || printf '/plans/\n' >> .gitignore
+```
 
 Co-located so they're easy to find while working; gitignored so teammates never
 see your scratch and it never lands in a PR.

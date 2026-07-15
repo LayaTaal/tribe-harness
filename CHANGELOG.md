@@ -3,6 +3,33 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions before 1.1.0
 predate this file — see `git log` for that history.
 
+## [1.3.0] - 2026-07-15
+
+### Added
+- `references/checkpoints.md` — complex-lane tickets can now pause and resume across
+  sessions. A thin `plans/<TICKET-ID>/status.md` cursor (stage, lane, branch, expected
+  session model, a must-surface queue) lets a fresh `/ticket <ID>` invocation resume
+  without re-fetching or re-deriving prior stages. Task progress stays on `plan.md`
+  itself (checkboxes) rather than a second mirrored list, to avoid staleness.
+- Pause points wired into `skills/ticket/SKILL.md`: after plan approval, between develop
+  task-checkpoints (`references/subagents.md`), before review, and before PR (folded into
+  the existing pre-PR approval confirm rather than a second prompt).
+
+### Changed
+- `references/file-organization.md` — the gitignore-for-`/plans/` step is now a single
+  idempotent Bash one-liner (`git check-ignore -q plans/ ...`) instead of a multi-step reasoning
+  instruction.
+- `references/decision-tree.md`, `README.md` — reference the new checkpoint/resume flow.
+
+### Considered and declined
+- Repomix / Code2Prompt for research-token reduction — both front-load a repo blob into
+  context, which is the opposite of the goal; the `Explore` agent and this environment's
+  context-mode-style indexing already cover it.
+- A dedicated `scripts/` directory for mechanical research tasks — the only genuinely
+  judgment-free candidate (the gitignore check) is now a one-liner; everything else
+  surveyed needs project-specific interpretation, so scripting it would just move the
+  reasoning, not remove it.
+
 ## [1.2.0] - 2026-07-02
 
 ### Added

@@ -23,7 +23,7 @@ skills/
   handoff/     # /handoff — writes a resume doc to the project's .scratch/
   demo/        # /demo — turns demo-log.md + assets into a shareable walkthrough doc
 references/    # develop, verify, subagents, demo-capture, file-organization,
-               # decision-tree, platform/*  (read by the orchestrator)
+               # checkpoints, decision-tree, platform/*  (read by the orchestrator)
 config.yml     # model policy + defaults
 install.sh     # symlink skills into ~/.claude/skills
 ```

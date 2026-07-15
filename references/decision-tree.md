@@ -64,3 +64,8 @@ digraph ticket_workflow {
 
 Throughout, **demo capture** always buffers notable moments to a scratch draft; you
 decide once, before the PR, whether to keep it as `demo-log.md` — see `demo-capture.md`.
+
+Complex-lane tickets can also pause and resume across sessions at a few points (after
+plan approval, between develop task-checkpoints, before review, before PR) — see
+`checkpoints.md`. `/ticket <ID>` checks for a `plans/<TICKET-ID>/status.md` resume cursor
+before fetching from Jira.
