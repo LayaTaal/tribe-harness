@@ -63,7 +63,10 @@ Demo capture buffers automatically from here — no flag or upfront decision nee
 
 **5. Plan.** Invoke the `plan` sub-skill. Complex → `plan.md` with discrete, acceptance-
 tagged tasks (each marked sequential or parallel-safe). Simple → a brief inline plan, no
-doc. Optionally `grill-me` the plan on the complex lane.
+doc. Optionally `grill-me` the plan on the complex lane. If the ticket links Figma
+designs and decomposes naturally into pieces (a masthead, a nav, a multi-part page
+section), invoke `figma-components` instead — it still produces `plan.md`, just built
+component-by-component with `qa-design` findings folded in per piece.
 
 **6. Develop.** **Get the user's explicit go-ahead on the plan before writing any
 code — both lanes.** Complex lane: this is also a pause point (`references/checkpoints.md`)

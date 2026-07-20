@@ -35,6 +35,7 @@ link_dir "$HARNESS_DIR/skills" "$CLAUDE_DIR/skills"
 link_dir "$HARNESS_DIR/agents" "$CLAUDE_DIR/agents"
 
 echo
-echo "Done. Entry points: /ticket, /estimate, /handoff, /demo."
+echo "Done. Entry points: /ticket, /estimate, /handoff, /demo, /figma-components."
 echo "brainstorm, plan, review are invoked by the ticket orchestrator."
+echo "figma-components is standalone, or invoked by the plan stage for Figma-linked tickets."
 echo "Subagent roles: developer, reviewer, researcher, qa-design (see references/subagents.md)."

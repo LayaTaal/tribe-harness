@@ -17,7 +17,7 @@ digraph ticket_workflow {
 
   brainstorm [label="brainstorm sub-skill\n-> plans/ID/brainstorm.md"];
   grill1     [label="(optional) grill-me on approach"];
-  plan_c     [label="plan sub-skill -> plans/ID/plan.md"];
+  plan_c     [label="plan sub-skill -> plans/ID/plan.md\n(or figma-components sub-skill if\nFigma-linked + component-decomposable)"];
   grill2     [label="(optional) grill-me on plan"];
   plan_s     [label="Brief inline plan (no doc)"];
 
@@ -60,7 +60,7 @@ digraph ticket_workflow {
 | Stage        | Simple (<=3h)                | Complex                                  |
 |--------------|------------------------------|------------------------------------------|
 | Brainstorm   | skipped                      | `brainstorm.md`, optional grill-me       |
-| Plan         | brief inline plan            | `plan.md` with discrete tasks            |
+| Plan         | brief inline plan            | `plan.md` with discrete tasks (or `figma-components` sub-skill, component-by-component, for Figma-linked decomposable tickets) |
 | Develop      | inline                       | subagent per task, review checkpoint     |
 | Quality gate | lint/build/test green (≤2 fix attempts, else pause) | same |
 | Review       | self-review (escalates to independent agent if risk grows) | independent review agent → `review.md` |
