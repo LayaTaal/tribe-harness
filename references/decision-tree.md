@@ -17,7 +17,7 @@ digraph ticket_workflow {
 
   brainstorm [label="brainstorm sub-skill\n-> plans/ID/brainstorm.md"];
   grill1     [label="(optional) grill-me on approach"];
-  plan_c     [label="plan sub-skill -> plans/ID/plan.md"];
+  plan_c     [label="plan sub-skill -> plans/ID/plan.md\n(or figma-components sub-skill if\nFigma-linked + component-decomposable)"];
   grill2     [label="(optional) grill-me on plan"];
   plan_s     [label="Brief inline plan (no doc)"];
 
@@ -28,6 +28,8 @@ digraph ticket_workflow {
   review_c   [label="review sub-skill\nINDEPENDENT agent -> plans/ID/review.md"];
   review_s   [label="review sub-skill\nquick self-review"];
   satisfied  [shape=diamond, label="Satisfied?"];
+  dqa        [label="Manual DQA (manual-dqa sub-skill)\npause: user tests live -> plans/ID/manual-dqa-N.md\n+ assets/manual-dqa-N/"];
+  dqacheck   [shape=diamond, label="Findings reported?"];
   demodecide [label="Keep or discard buffered demo log?\n(refs/demo-capture.md)"];
   pr         [label="Open PR (delegate: tribe git-workflow)"];
   testing    [label="Testing instructions\n(delegate: tribe jira-testing-instructions)"];
@@ -44,7 +46,10 @@ digraph ticket_workflow {
   gatecheck->develop [label="no (fix; pause user if it persists)"];
   gatecheck->review_c [label="complex"]; gatecheck->review_s [label="simple"];
   review_c->satisfied; review_s->satisfied;
-  satisfied->develop [label="no, iterate"]; satisfied->demodecide [label="yes"];
+  satisfied->develop [label="no, iterate"]; satisfied->dqa [label="yes"];
+  dqa->dqacheck;
+  dqacheck->develop [label="findings — brief fixes, dispatch, loop"];
+  dqacheck->demodecide [label="clean"];
   demodecide->pr;
   pr->testing->done;
 }
@@ -55,17 +60,22 @@ digraph ticket_workflow {
 | Stage        | Simple (<=3h)                | Complex                                  |
 |--------------|------------------------------|------------------------------------------|
 | Brainstorm   | skipped                      | `brainstorm.md`, optional grill-me       |
-| Plan         | brief inline plan            | `plan.md` with discrete tasks            |
+| Plan         | brief inline plan            | `plan.md` with discrete tasks (or `figma-components` sub-skill, component-by-component, for Figma-linked decomposable tickets) |
 | Develop      | inline                       | subagent per task, review checkpoint     |
 | Quality gate | lint/build/test green (≤2 fix attempts, else pause) | same |
 | Review       | self-review (escalates to independent agent if risk grows) | independent review agent → `review.md` |
+| Manual DQA   | mandatory, both lanes — human pass before PR; findings loop back to develop until clean | same |
 | Demo capture | always buffered; one keep/discard decision before PR | same                              |
 | PR + testing | always (delegated to tribe)  | always (delegated to tribe)              |
 
 Throughout, **demo capture** always buffers notable moments to a scratch draft; you
 decide once, before the PR, whether to keep it as `demo-log.md` — see `demo-capture.md`.
 
+**Manual DQA** rounds (`manual-dqa-N.md` + `assets/manual-dqa-N/`) are gitignored
+per-round artifacts under `plans/<TICKET-ID>/`, same as everything else in
+`file-organization.md` — see `skills/manual-dqa/SKILL.md` for the format and loop.
+
 Complex-lane tickets can also pause and resume across sessions at a few points (after
-plan approval, between develop task-checkpoints, before review, before PR) — see
-`checkpoints.md`. `/ticket <ID>` checks for a `plans/<TICKET-ID>/status.md` resume cursor
-before fetching from Jira.
+plan approval, between develop task-checkpoints, before review, between manual DQA
+rounds, before PR) — see `checkpoints.md`. `/ticket <ID>` checks for a
+`plans/<TICKET-ID>/status.md` resume cursor before fetching from Jira.

@@ -1,6 +1,6 @@
 ---
 name: ticket
-description: Use when the user starts work on a Jira ticket (e.g. "/ticket PROJ-123", "let's work on PROJ-123", "pick up TICKET-ID"). The collaborative orchestrator that drives a ticket through its full lifecycle — understand, brainstorm, plan, develop, verify, review, PR, testing instructions — choosing a simple or complex path and delegating to the right skills. This is the ONLY entry point for ticket work; it invokes the brainstorm/plan/review sub-skills itself.
+description: Use when the user starts work on a Jira ticket (e.g. "/ticket PROJ-123", "let's work on PROJ-123", "pick up TICKET-ID"). The collaborative orchestrator that drives a ticket through its full lifecycle — understand, brainstorm, plan, develop, verify, review, manual DQA, PR, testing instructions — choosing a simple or complex path and delegating to the right skills. This is the ONLY entry point for ticket work; it invokes the brainstorm/plan/review/manual-dqa sub-skills itself.
 ---
 
 # Ticket orchestrator
@@ -30,10 +30,12 @@ mark them off as you complete them. **As you enter each stage, say which step yo
 - [ ] 6. Quality gate (lint/build/test must pass; per `references/quality-gate.md`)
 - [ ] 7. Review: (complex) independent agent → `review.md`; (simple) quick self-review
 - [ ] 8. Iterate 4–7 until satisfied
-- [ ] 9. Decide: keep or discard the buffered demo log (`references/demo-capture.md`)
-- [ ] 10. Open the PR (delegate to `git-workflow`)
-- [ ] 11. Add testing instructions to Jira (delegate to `jira-testing-instructions`)
-- [ ] 12. Write a handoff (delegate to `handoff` → `.scratch/`) so the work can resume cleanly
+- [ ] 9. Manual DQA: pause for the user's live pass → `manual-dqa-N.md`; brief and dispatch
+      fixes for any findings, loop back to 4 until a round is clean
+- [ ] 10. Decide: keep or discard the buffered demo log (`references/demo-capture.md`)
+- [ ] 11. Open the PR (delegate to `git-workflow`)
+- [ ] 12. Add testing instructions to Jira (delegate to `jira-testing-instructions`)
+- [ ] 13. Write a handoff (delegate to `handoff` → `.scratch/`) so the work can resume cleanly
 
 ## Stage detail
 
@@ -61,7 +63,10 @@ Demo capture buffers automatically from here — no flag or upfront decision nee
 
 **5. Plan.** Invoke the `plan` sub-skill. Complex → `plan.md` with discrete, acceptance-
 tagged tasks (each marked sequential or parallel-safe). Simple → a brief inline plan, no
-doc. Optionally `grill-me` the plan on the complex lane.
+doc. Optionally `grill-me` the plan on the complex lane. If the ticket links Figma
+designs and decomposes naturally into pieces (a masthead, a nav, a multi-part page
+section), invoke `figma-components` instead — it still produces `plan.md`, just built
+component-by-component with `qa-design` findings folded in per piece.
 
 **6. Develop.** **Get the user's explicit go-ahead on the plan before writing any
 code — both lanes.** Complex lane: this is also a pause point (`references/checkpoints.md`)
@@ -93,16 +98,24 @@ bugs, regressions, dead/duplicated code, and simplifications.
 
 **10. Iterate.** Loop 6–9 until you and the user are satisfied.
 
-**11. Demo decision.** Ask once whether to keep the buffered demo log
+**11. Manual DQA.** Mandatory, both lanes. Pause — tell the user it's time for a live
+pass and wait for `plans/<TICKET-ID>/manual-dqa-N.md` (screenshots under
+`assets/manual-dqa-N/`), or "clean," per `skills/manual-dqa/SKILL.md`. Findings → brief
+fix tasks from the unchecked items, dispatch via the `developer` role (complex lane) or
+fix inline (simple lane), re-verify, and loop back to step 6 — repeat through this step
+until a round comes back clean. Complex lane: this is a pause point
+(`references/checkpoints.md`) between rounds.
+
+**12. Demo decision.** Ask once whether to keep the buffered demo log
 (`references/demo-capture.md`). Keep → promote the draft to `plans/<TICKET-ID>/`.
 Discard → leave it in scratch. Either way, don't block on this — a quick yes/no.
 
-**12. PR.** **Confirm with the user before opening the PR.** Complex lane: fold the
+**13. PR.** **Confirm with the user before opening the PR.** Complex lane: fold the
 checkpoints.md pause into this same confirm rather than asking twice — write/update
 status.md and offer a fresh session here as part of asking whether to proceed. Then
 delegate to `git-workflow` for branch naming and PR format. Never invent conventions it owns.
 
-**13. Testing instructions.** **Confirm before writing to Jira.** Then delegate to
+**14. Testing instructions.** **Confirm before writing to Jira.** Then delegate to
 `jira-testing-instructions`. Link the PR on the ticket and transition it per the team's
 flow — these are Jira writes too, so they fall under the same confirm.
 
@@ -123,3 +136,6 @@ flow — these are Jira writes too, so they fall under the same confirm.
   improvising that stage.
 - Any spec item known to be unverified or deferred must be surfaced to the user as a
   question at or before the PR gate — handoff notes are not a parking lot for spec gaps.
+- Manual DQA findings follow the same rule: an unchecked item in `manual-dqa-N.md` can't
+  be silently left for later — fix it, or surface it to the user as an explicit question
+  before proceeding to the demo decision.

@@ -3,6 +3,20 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions before 1.1.0
 predate this file — see `git log` for that history.
 
+## [Unreleased]
+
+### Added
+- `skills/figma-components/SKILL.md` — a standalone-or-ticket-integrated skill that
+  breaks a Figma-driven feature into individual components and plans them one at a
+  time, instead of planning the whole feature as one unit (encodes the methodology
+  a project-local `masthead-dqa` agent proved out manually). Reuses `qa-design` per
+  component to audit anything already live, and `developer`'s existing `Design:`
+  briefing field for components being built from scratch — no new agents. Produces a
+  normal `plan.md`, so `develop`/`verify`/`checkpoints.md` need no changes.
+- `references/decision-tree.md`, `skills/ticket/SKILL.md` — the plan stage now invokes
+  `figma-components` instead of plain `plan` when a ticket links Figma designs and
+  decomposes naturally into pieces.
+
 ## [1.3.0] - 2026-07-15
 
 ### Added
