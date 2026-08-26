@@ -34,6 +34,9 @@ this repo (e.g. project-local custom agents); they may not exist in every instal
 The `Agent` tool accepts a `model` parameter. The orchestrator reads `config.yml` and
 passes the stage's model when dispatching. Stages mapped to `session` run inline (no
 subagent) on whatever model the session was launched with — launch `/ticket` on Opus.
+Simple-lane implementation is dispatched as one `developer` subagent with
+`models.simple_develop`; complex-lane implementation continues to use
+`models.develop`.
 
 ## Entry points
 

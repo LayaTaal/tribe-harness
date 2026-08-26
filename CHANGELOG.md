@@ -6,6 +6,8 @@ predate this file — see `git log` for that history.
 ## [1.3.0] - 2026-07-15
 
 ### Added
+- Separate `models.simple_develop` policy for simple-lane implementation, which is
+  dispatched to a dedicated developer subagent instead of reusing the planning model.
 - `references/checkpoints.md` — complex-lane tickets can now pause and resume across
   sessions. A thin `plans/<TICKET-ID>/status.md` cursor (stage, lane, branch, expected
   session model, a must-surface queue) lets a fresh `/ticket <ID>` invocation resume

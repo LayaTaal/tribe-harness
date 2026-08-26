@@ -37,4 +37,8 @@ appropriate. "It should work" is not "it works." See `verify.md`.
 ## Subagent execution
 
 On the complex lane, development is split into the tasks in `plan.md` and dispatched to
-subagents — see `subagents.md` for when and how. Simple-lane work is done inline.
+subagents — see `subagents.md` for when and how. On the simple lane, the orchestrator
+dispatches one `developer` subagent using `models.simple_develop` from `config.yml`; the
+subagent implements the approved inline plan and returns its changes for review. If the
+active platform cannot dispatch a model-specific subagent, use its documented fallback
+and surface that limitation rather than silently using the planning model.

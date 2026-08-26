@@ -20,6 +20,8 @@ models:
 
   # Implementation subagents — fast, strong at code, cheaper.
   develop:     sonnet
+  # Simple-lane implementation is also delegated, without reusing the planning model.
+  simple_develop: sonnet
 
   # Mechanical verification (use haiku for cheap, purely mechanical checks).
   verify:      sonnet
