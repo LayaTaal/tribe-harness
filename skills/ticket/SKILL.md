@@ -6,8 +6,8 @@ description: Use when the user starts work on a Jira ticket (e.g. "/ticket PROJ-
 # Ticket orchestrator
 
 You are a collaborative engineering partner, not an autopilot. Drive the ticket
-**with** the user: think out loud, push back when something seems wrong, surface
-questions early, and review the work critically. Never silently guess past ambiguity.
+**with** the user: summarize decisions concisely, push back when something seems wrong,
+surface questions early, and review the work critically. Never silently guess past ambiguity.
 
 Entry: `/ticket <TICKET-ID>`.
 
@@ -18,9 +18,8 @@ Complex-lane tickets can pause and resume across sessions — see `references/ch
 
 ## Task progress
 
-Track these as todos and work them in order. Keep a visible todo list in the chat, and
-mark them off as you complete them. **As you enter each stage, say which step you're on**
-(e.g. "Step 5 — verifying behavior") so the user always knows where the workflow is.
+Track progress as todos and work the stages in order. Report only meaningful phase changes;
+do not repeat the entire checklist or narrate routine tool use.
 
 - [ ] 1. Evaluate the ticket
 - [ ] 2. (complex) Brainstorm → `brainstorm.md`; (simple) skip
@@ -30,10 +29,9 @@ mark them off as you complete them. **As you enter each stage, say which step yo
 - [ ] 6. Quality gate (lint/build/test must pass; per `references/quality-gate.md`)
 - [ ] 7. Review: (complex) independent agent → `review.md`; (simple) quick self-review
 - [ ] 8. Iterate 4–7 until satisfied
-- [ ] 9. Decide: keep or discard the buffered demo log (`references/demo-capture.md`)
-- [ ] 10. Open the PR (delegate to `git-workflow`)
-- [ ] 11. Add testing instructions to Jira (delegate to `jira-testing-instructions`)
-- [ ] 12. Write a handoff (delegate to `handoff` → `.scratch/`) so the work can resume cleanly
+- [ ] 9. Open the PR (delegate to `git-workflow`)
+- [ ] 10. Add testing instructions to Jira (delegate to `jira-testing-instructions`)
+- [ ] 11. Write a handoff only if needed to resume in a fresh session
 
 ## Stage detail
 
@@ -53,9 +51,6 @@ PM. Do not proceed on guesses. Resolve, then continue.
 **3. Assess + confirm lane.** Using the estimate core (`skills/estimate`), judge whether
 this is simple (<=3h: isolated, clear AC, low risk) or complex. Propose the lane with a
 one-line rationale and let the user confirm or override (`config.yml` `defaults.lane`).
-Demo capture buffers automatically from here — no flag or upfront decision needed; follow
-`references/demo-capture.md` throughout.
-
 **4. Brainstorm (complex only).** Invoke the `brainstorm` sub-skill → writes
 `brainstorm.md`. Offer to stress-test the chosen approach with `grill-me`.
 
@@ -70,11 +65,11 @@ follow `references/develop.md` (smallest complete change, follow the project,
 contextual+project-adaptive testing). Complex lane: dispatch a subagent per task per
 `references/subagents.md`, sequential with a review checkpoint, using the model from
 `config.yml` — after each task's checkpoint passes, this is also a pause point on
-multi-task tickets. Simple lane: build inline.
+multi-task tickets. Simple lane: dispatch one dedicated developer subagent using the
+`develop` model, per the simple-lane guidance in PR #4.
 
 **7. Verify.** Follow `references/verify.md`. Observe real behavior (browser/API/WP-CLI)
-before claiming anything works. Browser verification always stashes a screenshot to the
-demo draft (`references/demo-capture.md`).
+before claiming anything works.
 
 **8. Quality gate.** Run the project's lint/build/test (commands from its
 `AGENTS.md`/`CLAUDE.md`) per `references/quality-gate.md`. It must pass before review/PR.
@@ -91,18 +86,14 @@ assumptions (multiple files, shared/core code, bigger diff than estimated, edits
 tests/config/schema). Either way, review runs **before** the PR/commit gate. Look for
 bugs, regressions, dead/duplicated code, and simplifications.
 
-**10. Iterate.** Loop 6–9 until you and the user are satisfied.
+**10. Iterate.** Loop develop → verify → gate → review until you and the user are satisfied.
 
-**11. Demo decision.** Ask once whether to keep the buffered demo log
-(`references/demo-capture.md`). Keep → promote the draft to `plans/<TICKET-ID>/`.
-Discard → leave it in scratch. Either way, don't block on this — a quick yes/no.
-
-**12. PR.** **Confirm with the user before opening the PR.** Complex lane: fold the
+**11. PR.** **Confirm with the user before opening the PR.** Complex lane: fold the
 checkpoints.md pause into this same confirm rather than asking twice — write/update
 status.md and offer a fresh session here as part of asking whether to proceed. Then
 delegate to `git-workflow` for branch naming and PR format. Never invent conventions it owns.
 
-**13. Testing instructions.** **Confirm before writing to Jira.** Then delegate to
+**12. Testing instructions.** **Confirm before writing to Jira.** Then delegate to
 `jira-testing-instructions`. Link the PR on the ticket and transition it per the team's
 flow — these are Jira writes too, so they fall under the same confirm.
 

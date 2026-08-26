@@ -28,7 +28,6 @@ digraph ticket_workflow {
   review_c   [label="review sub-skill\nINDEPENDENT agent -> plans/ID/review.md"];
   review_s   [label="review sub-skill\nquick self-review"];
   satisfied  [shape=diamond, label="Satisfied?"];
-  demodecide [label="Keep or discard buffered demo log?\n(refs/demo-capture.md)"];
   pr         [label="Open PR (delegate: tribe git-workflow)"];
   testing    [label="Testing instructions\n(delegate: tribe jira-testing-instructions)"];
   done       [shape=oval, label="Done"];
@@ -44,8 +43,7 @@ digraph ticket_workflow {
   gatecheck->develop [label="no (fix; pause user if it persists)"];
   gatecheck->review_c [label="complex"]; gatecheck->review_s [label="simple"];
   review_c->satisfied; review_s->satisfied;
-  satisfied->develop [label="no, iterate"]; satisfied->demodecide [label="yes"];
-  demodecide->pr;
+  satisfied->develop [label="no, iterate"]; satisfied->pr [label="yes"];
   pr->testing->done;
 }
 ```
@@ -56,14 +54,10 @@ digraph ticket_workflow {
 |--------------|------------------------------|------------------------------------------|
 | Brainstorm   | skipped                      | `brainstorm.md`, optional grill-me       |
 | Plan         | brief inline plan            | `plan.md` with discrete tasks            |
-| Develop      | inline                       | subagent per task, review checkpoint     |
+| Develop      | dedicated Sonnet developer subagent | subagent per task, review checkpoint |
 | Quality gate | lint/build/test green (≤2 fix attempts, else pause) | same |
 | Review       | self-review (escalates to independent agent if risk grows) | independent review agent → `review.md` |
-| Demo capture | always buffered; one keep/discard decision before PR | same                              |
 | PR + testing | always (delegated to tribe)  | always (delegated to tribe)              |
-
-Throughout, **demo capture** always buffers notable moments to a scratch draft; you
-decide once, before the PR, whether to keep it as `demo-log.md` — see `demo-capture.md`.
 
 Complex-lane tickets can also pause and resume across sessions at a few points (after
 plan approval, between develop task-checkpoints, before review, before PR) — see

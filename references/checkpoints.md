@@ -42,8 +42,7 @@ Not after every stage — only where a fresh session materially pays off:
 2. **Between develop task-checkpoints**, on multi-task tickets (after a subagent's task
    passes the checkpoint review, before dispatching the next).
 3. **Before review.**
-4. **Before PR/testing instructions** — right after the demo keep/discard decision
-   (`skills/ticket/SKILL.md` step 11). This piggybacks on the approval gate that already
+4. **Before PR/testing instructions.** This piggybacks on the approval gate that already
    exists there ("confirm before opening the PR") — one prompt, not two, since both are
    asking "ready to take an outward action?"
 

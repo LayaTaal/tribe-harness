@@ -3,6 +3,15 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions before 1.1.0
 predate this file — see `git log` for that history.
 
+## [1.4.0] - 2026-08-26
+
+### Changed
+- Planning stages now use Sonnet and mechanical verification uses Haiku; Opus remains for
+  orchestration and independent review.
+- Simple-lane implementation follows PR #4's dedicated Sonnet developer dispatch.
+- Removed unused demo capture, `/demo`, and their scratch-file workflow.
+- Reduced repeated progress narration and removed redundant per-skill copies of `config.yml`.
+
 ## [1.3.0] - 2026-07-15
 
 ### Added

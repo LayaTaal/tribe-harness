@@ -37,5 +37,5 @@ subagent) on whatever model the session was launched with — launch `/ticket` o
 
 ## Entry points
 
-- `/ticket <TICKET-ID> [--demo]` → the orchestrator.
+- `/ticket <TICKET-ID>` → the orchestrator.
 - `/estimate <TICKET-ID>` → the standalone estimation utility.
