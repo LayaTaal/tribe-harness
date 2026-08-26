@@ -35,8 +35,7 @@ The `Agent` tool accepts a `model` parameter. The orchestrator reads `config.yml
 passes the stage's model when dispatching. Stages mapped to `session` run inline (no
 subagent) on whatever model the session was launched with — launch `/ticket` on Opus.
 Simple-lane implementation is dispatched as one `developer` subagent with
-`models.simple_develop`; complex-lane implementation continues to use
-`models.develop`.
+`models.develop`, the same implementation policy used by complex-lane tasks.
 
 ## Entry points
 

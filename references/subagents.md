@@ -1,15 +1,15 @@
 # Splitting work across subagents
 
 How the develop stage turns a plan into subagent work. This is the same lever that
-applies the model policy (`config.yml`): complex-lane subagents run on `models.develop`,
-while the single simple-lane implementation subagent runs on `models.simple_develop`.
+applies the model policy (`config.yml`): both complex-lane subagents and the single
+simple-lane implementation subagent run on `models.develop`.
 
 ## When to split
 
 - **Complex lane:** split when `plan.md` has distinct tasks with clear, independent
   acceptance criteria.
 - **Simple lane:** always dispatch exactly one developer subagent so implementation can
-  use the lower-cost `models.simple_develop` policy without reusing the planning model.
+  use the lower-cost `models.develop` policy without reusing the planning model.
 - Don't split work that shares tight state or must be reasoned about as one unit.
 
 ## Sequential with review checkpoints (default)
@@ -30,7 +30,7 @@ For each task in `plan.md`, in order:
 ## Simple-lane dispatch
 
 After the user approves the brief inline plan, dispatch one `developer` role with the
-complete plan, relevant files, acceptance criteria, and `models.simple_develop` from
+complete plan, relevant files, acceptance criteria, and `models.develop` from
 `config.yml`. Review the returned changes in the main session before continuing to
 verification. This is a model-selection optimization, not a second planning stage.
 
