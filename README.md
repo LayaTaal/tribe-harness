@@ -17,6 +17,7 @@ development, and an independent review.
 skills/
   ticket/      # /ticket — the orchestrator (only ambient workflow entry)
   estimate/    # /estimate — standalone, read-only time estimate
+  session-metrics/ # /session-metrics — record and compare Claude Code usage
   brainstorm/  # invoked by ticket (complex lane)
   plan/        # invoked by ticket
   review/      # invoked by ticket (independent agent on complex lane)

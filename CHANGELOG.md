@@ -11,6 +11,8 @@ predate this file — see `git log` for that history.
 - Simple-lane implementation follows PR #4's dedicated Sonnet developer dispatch.
 - Removed unused demo capture, `/demo`, and their scratch-file workflow.
 - Reduced repeated progress narration and removed redundant per-skill copies of `config.yml`.
+- Added `/session-metrics` to record aggregate Claude Code usage for `pr4-only` and
+  `pr4-pr5` comparisons under `.scratch/session-metrics/`.
 
 ## [1.3.0] - 2026-07-15
 
