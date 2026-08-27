@@ -35,14 +35,26 @@ function findTranscript(cwd) {
   }
   visit(root);
 
-  const matches = candidates.filter((file) => {
-    const firstLine = fs.readFileSync(file, "utf8").split("\n", 1)[0];
-    try {
-      return JSON.parse(firstLine).cwd === cwd;
-    } catch {
-      return false;
+  // Scan the head of the file for the first record carrying a cwd, rather than only line 0.
+  // Current transcripts open with a header record (type/mode/sessionId, or type/leafUuid/sessionId
+  // on a resumed session) that has no cwd at all — it first appears two to four lines in. Reading
+  // only the first line matched nothing, so every run failed with "no transcript found for cwd".
+  const HEAD_LINES = 25;
+  const transcriptCwd = (file) => {
+    const head = fs.readFileSync(file, "utf8").split("\n", HEAD_LINES);
+    for (const line of head) {
+      if (!line) continue;
+      try {
+        const { cwd: value } = JSON.parse(line);
+        if (value) return value;
+      } catch {
+        continue;
+      }
     }
-  });
+    return null;
+  };
+
+  const matches = candidates.filter((file) => transcriptCwd(file) === cwd);
   if (!matches.length) throw new Error(`no transcript found for cwd ${cwd}`);
   const rootTranscript = matches.sort((a, b) => fs.statSync(b).mtimeMs - fs.statSync(a).mtimeMs)[0];
   const subagentsDir = path.join(path.dirname(rootTranscript), path.basename(rootTranscript, ".jsonl"), "subagents");
