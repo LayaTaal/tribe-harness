@@ -8,8 +8,9 @@ simple-lane implementation subagent run on `models.develop`.
 
 - **Complex lane:** split when `plan.md` has distinct tasks with clear, independent
   acceptance criteria.
-- **Simple lane:** always dispatch exactly one developer subagent so implementation can
-  use the lower-cost `models.develop` policy without reusing the planning model.
+- **Simple lane:** always dispatch exactly one developer subagent after plan approval.
+  Do not edit files in the main session. If dispatch is unavailable, stop and mark the
+  run protocol-invalid rather than falling back to inline implementation.
 - Don't split work that shares tight state or must be reasoned about as one unit.
 
 ## Sequential with review checkpoints (default)

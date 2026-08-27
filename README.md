@@ -17,12 +17,12 @@ development, and an independent review.
 skills/
   ticket/      # /ticket — the orchestrator (only ambient workflow entry)
   estimate/    # /estimate — standalone, read-only time estimate
+  session-metrics/ # /session-metrics — record and compare Claude Code usage
   brainstorm/  # invoked by ticket (complex lane)
   plan/        # invoked by ticket
   review/      # invoked by ticket (independent agent on complex lane)
   handoff/     # /handoff — writes a resume doc to the project's .scratch/
-  demo/        # /demo — turns demo-log.md + assets into a shareable walkthrough doc
-references/    # develop, verify, subagents, demo-capture, file-organization,
+references/    # develop, verify, subagents, file-organization,
                # checkpoints, decision-tree, platform/*  (read by the orchestrator)
 config.yml     # model policy + defaults
 install.sh     # symlink skills into ~/.claude/skills
@@ -41,10 +41,8 @@ Sonnet subagents — see `config.yml`).
 ## Usage
 
 ```
-/ticket PROJ-123            # work a ticket end-to-end (demo moments buffer automatically;
-                            # you decide whether to keep them just before the PR)
+/ticket PROJ-123            # work a ticket end-to-end
 /estimate PROJ-123          # just estimate it (read-only)
-/demo PROJ-123              # turn a kept demo-log into a shareable walkthrough doc
 ```
 
 The orchestrator assesses simple vs complex and asks you to confirm before working.

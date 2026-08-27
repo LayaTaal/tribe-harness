@@ -13,16 +13,16 @@ models:
   understand:  session
   estimate:    session
 
-  # "Think" stages — architecture, planning, sharp review.
-  brainstorm:  opus
-  plan:        opus
+  # Planning stages use a cheaper model; orchestration and review retain Opus judgment.
+  brainstorm:  sonnet
+  plan:        sonnet
   review:      opus
 
   # Implementation subagents — fast, strong at code, cheaper.
   develop:     sonnet
 
   # Mechanical verification (use haiku for cheap, purely mechanical checks).
-  verify:      sonnet
+  verify:      haiku
 
 defaults:
   # How the simple(<=3h)/complex lane is chosen.
@@ -40,5 +40,3 @@ defaults:
 paths:
   # Process files (gitignored). {project} = repo root, {ticket} = TICKET-ID.
   plans: "{project}/plans/{ticket}"
-  # Throwaway/temp files (outside any repo).
-  tmp:   "~/code/tribe/tmp/{project}/{ticket}"

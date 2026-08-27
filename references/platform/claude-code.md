@@ -23,6 +23,10 @@ Tribe-harness ships its own subagent roles (`agents/`, symlinked to `~/.claude/a
 `subagent_type` set to the matching role name — never reference agent types from outside
 this repo (e.g. project-local custom agents); they may not exist in every install.
 
+Simple-lane implementation is fail-closed: after plan approval, dispatch exactly one
+`developer` subagent with `models.develop`; the main session must not edit files. If the
+Agent tool or requested model is unavailable, stop and report a protocol-invalid run.
+
 ## Delegations (kept tribe/Pocock skills — do not reimplement)
 
 - Branching + PRs → `git-workflow`
@@ -39,5 +43,5 @@ Simple-lane implementation is dispatched as one `developer` subagent with
 
 ## Entry points
 
-- `/ticket <TICKET-ID> [--demo]` → the orchestrator.
+- `/ticket <TICKET-ID>` → the orchestrator.
 - `/estimate <TICKET-ID>` → the standalone estimation utility.

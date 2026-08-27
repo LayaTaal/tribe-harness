@@ -57,8 +57,5 @@ How / touches / pros / cons / risk / effort
 Chose A because ... (over B/C because ...)
 ```
 
-If demo capture is on, the chosen approach + rationale becomes an "Approach chosen"
-entry in `demo-log.md` (see `references/demo-capture.md`).
-
 After this, control returns to the orchestrator, which may offer `grill-me` on the
 approach, then moves to the `plan` stage.

@@ -3,6 +3,20 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions before 1.1.0
 predate this file — see `git log` for that history.
 
+## [1.4.0] - 2026-08-26
+
+### Changed
+- Planning stages now use Sonnet and mechanical verification uses Haiku; Opus remains for
+  orchestration and independent review.
+- Simple-lane implementation follows PR #4's dedicated Sonnet developer dispatch.
+- Removed unused demo capture, `/demo`, and their scratch-file workflow.
+- Reduced repeated progress narration and removed redundant per-skill copies of `config.yml`.
+- Added `/session-metrics` to record aggregate Claude Code usage for `pr4-only` and
+  `pr4-pr5` comparisons under `.scratch/session-metrics/`.
+- Added model pricing configuration and USD cost calculations to session metrics; invalid
+  protocol runs are excluded from comparisons.
+- Made simple-lane developer dispatch fail-closed across the workflow references.
+
 ## [1.3.0] - 2026-07-15
 
 ### Added
