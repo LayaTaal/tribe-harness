@@ -70,7 +70,9 @@ follow `references/develop.md` (smallest complete change, follow the project,
 contextual+project-adaptive testing). Complex lane: dispatch a subagent per task per
 `references/subagents.md`, sequential with a review checkpoint, using the model from
 `config.yml` — after each task's checkpoint passes, this is also a pause point on
-multi-task tickets. Simple lane: build inline.
+multi-task tickets. Simple lane: dispatch one `developer` subagent from the main
+session using `models.develop` from `config.yml`; the subagent implements the approved
+inline plan and returns its changes for the orchestrator to review.
 
 **7. Verify.** Follow `references/verify.md`. Observe real behavior (browser/API/WP-CLI)
 before claiming anything works. Browser verification always stashes a screenshot to the
