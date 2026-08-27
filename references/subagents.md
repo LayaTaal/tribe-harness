@@ -1,8 +1,8 @@
 # Splitting work across subagents
 
 How the develop stage turns a plan into subagent work. This is the same lever that
-applies the model policy (`config.yml`): each dispatched subagent runs on the model
-named for its stage (develop → sonnet by default).
+applies the model policy (`config.yml`): both complex-lane subagents and the single
+simple-lane implementation subagent run on `models.develop`.
 
 ## When to split
 
@@ -28,13 +28,14 @@ For each task in `plan.md`, in order:
    tickets.
 4. Proceed to the next task.
 
-This catches drift early and keeps you in the loop — the collaborative ethos of the harness.
-
 ## Simple-lane dispatch
 
 After the user approves the brief inline plan, dispatch one `developer` role with the
 complete plan, relevant files, acceptance criteria, and `models.develop` from
-`config.yml`. Review the returned changes in the main session before verification.
+`config.yml`. Review the returned changes in the main session before continuing to
+verification. This is a model-selection optimization, not a second planning stage.
+
+This catches drift early and keeps you in the loop — the collaborative ethos of the harness.
 
 ## Parallel (for independent tasks)
 

@@ -38,6 +38,8 @@ Agent tool or requested model is unavailable, stop and report a protocol-invalid
 The `Agent` tool accepts a `model` parameter. The orchestrator reads `config.yml` and
 passes the stage's model when dispatching. Stages mapped to `session` run inline (no
 subagent) on whatever model the session was launched with — launch `/ticket` on Opus.
+Simple-lane implementation is dispatched as one `developer` subagent with
+`models.develop`, the same implementation policy used by complex-lane tasks.
 
 ## Entry points
 

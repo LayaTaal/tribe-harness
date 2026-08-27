@@ -46,6 +46,8 @@ Sonnet subagents — see `config.yml`).
 ```
 
 The orchestrator assesses simple vs complex and asks you to confirm before working.
+Simple-lane implementation is delegated to one developer subagent using the
+`models.develop` policy, so it does not reuse the planning model.
 
 ## What it keeps vs replaces
 
