@@ -65,8 +65,10 @@ follow `references/develop.md` (smallest complete change, follow the project,
 contextual+project-adaptive testing). Complex lane: dispatch a subagent per task per
 `references/subagents.md`, sequential with a review checkpoint, using the model from
 `config.yml` — after each task's checkpoint passes, this is also a pause point on
-multi-task tickets. Simple lane: dispatch one dedicated developer subagent using the
-`develop` model, per the simple-lane guidance in PR #4.
+multi-task tickets. Simple lane: **do not edit files in the main session.** After the
+plan is approved, dispatch exactly one `developer` subagent using the `develop` model,
+per PR #4. If the Agent tool or model-specific dispatch is unavailable, stop and report
+the run as protocol-invalid; do not silently implement inline.
 
 **7. Verify.** Follow `references/verify.md`. Observe real behavior (browser/API/WP-CLI)
 before claiming anything works.
@@ -110,6 +112,8 @@ flow — these are Jira writes too, so they fall under the same confirm.
   (`references/checkpoints.md`) rather than assuming the fresh session got it right.
 - Verify before claiming success; if you couldn't verify, say so.
 - Delegate PRs, testing instructions, and Jira-ticket writing to the tribe skills.
+- Simple-lane implementation must be performed by the dedicated developer subagent; a
+  missing dispatch is a protocol failure, not permission to edit inline.
 - If a file this skill references does not resolve, stop and tell the user before
   improvising that stage.
 - Any spec item known to be unverified or deferred must be surfaced to the user as a

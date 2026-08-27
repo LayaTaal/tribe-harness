@@ -13,6 +13,9 @@ predate this file — see `git log` for that history.
 - Reduced repeated progress narration and removed redundant per-skill copies of `config.yml`.
 - Added `/session-metrics` to record aggregate Claude Code usage for `pr4-only` and
   `pr4-pr5` comparisons under `.scratch/session-metrics/`.
+- Added model pricing configuration and USD cost calculations to session metrics; invalid
+  protocol runs are excluded from comparisons.
+- Made simple-lane developer dispatch fail-closed across the workflow references.
 
 ## [1.3.0] - 2026-07-15
 

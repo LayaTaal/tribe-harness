@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const crypto = require("crypto");
 const { execFileSync } = require("child_process");
 
 function fail(message) {
@@ -11,9 +12,12 @@ function fail(message) {
 
 function parseArgs(argv) {
   if (argv[0] === "compare") return { compare: true };
-  const [variant, ticket = "unknown", lane = "unknown"] = argv;
+  const [variant, ticket = "unknown", lane = "unknown", validity = "valid"] = argv;
   if (!variant) throw new Error("usage: collect-session-metrics.js <variant> [ticket-id] [lane]");
-  return { variant, ticket, lane };
+  if (!["valid", "invalid"].includes(validity)) {
+    throw new Error("validity must be valid or invalid");
+  }
+  return { variant, ticket, lane, protocolValid: validity === "valid" };
 }
 
 function findTranscript(cwd) {
@@ -66,6 +70,7 @@ function readUsage(transcripts) {
   let sessionId = "unknown";
   let branch = "unknown";
   let cwd = "unknown";
+  const modelUsage = {};
 
   for (const transcript of transcripts) for (const line of fs.readFileSync(transcript, "utf8").split("\n")) {
     if (!line) continue;
@@ -86,7 +91,13 @@ function readUsage(transcripts) {
     if (!message?.usage) continue;
     messages += 1;
     model = message.model || model;
-    for (const key of Object.keys(totals)) totals[key] += Number(message.usage[key] || 0);
+    const messageModel = message.model || "unknown";
+    (modelUsage[messageModel] ||= { ...totals });
+    for (const key of Object.keys(totals)) {
+      const value = Number(message.usage[key] || 0);
+      totals[key] += value;
+      modelUsage[messageModel][key] += value;
+    }
     const content = Array.isArray(message.content) ? message.content : [];
     toolCalls += content.filter((item) => item?.type === "tool_use").length;
     subagentCalls += content.filter((item) =>
@@ -111,10 +122,49 @@ function readUsage(transcripts) {
       totals.cache_read_input_tokens + totals.cache_creation_input_tokens,
     billable_token_proxy: totals.input_tokens + totals.output_tokens +
       totals.cache_creation_input_tokens,
+    model_usage: modelUsage,
     tool_calls: toolCalls,
     subagent_calls: subagentCalls,
     duration_seconds: durationSeconds,
   };
+}
+
+function loadPricing(outputDir) {
+  const file = path.join(outputDir, "pricing.json");
+  if (!fs.existsSync(file)) {
+    throw new Error(`pricing file not found; copy skills/session-metrics/pricing.json.example to ${file} and update rates`);
+  }
+  const config = JSON.parse(fs.readFileSync(file, "utf8"));
+  if (!config.models || typeof config.models !== "object") {
+    throw new Error(`pricing file must contain a models object: ${file}`);
+  }
+  return {
+    models: config.models,
+    hash: crypto.createHash("sha256").update(fs.readFileSync(file)).digest("hex").slice(0, 16),
+  };
+}
+
+function priceUsage(modelUsage, pricing) {
+  let cost = 0;
+  for (const [model, usage] of Object.entries(modelUsage)) {
+    const key = Object.keys(pricing.models).find((candidate) =>
+      model.toLowerCase().includes(candidate.toLowerCase())
+    );
+    if (!key) throw new Error(`no pricing entry matches model ${model}`);
+    const rates = pricing.models[key];
+    for (const [usageKey, rateKey] of [
+      ["input_tokens", "input"],
+      ["output_tokens", "output"],
+      ["cache_read_input_tokens", "cache_read"],
+      ["cache_creation_input_tokens", "cache_write"],
+    ]) {
+      if (!Number.isFinite(Number(rates[rateKey]))) {
+        throw new Error(`pricing entry ${key} is missing numeric rate ${rateKey}`);
+      }
+      cost += usage[usageKey] * Number(rates[rateKey]) / 1_000_000;
+    }
+  }
+  return Number(cost.toFixed(6));
 }
 
 function git(args, cwd) {
@@ -133,16 +183,18 @@ function compare(outputDir) {
     const run = JSON.parse(line);
     (groups[run.variant] ||= []).push(run);
   }
-  for (const [variant, runs] of Object.entries(groups)) {
+  for (const [variant, allRuns] of Object.entries(groups)) {
+    const runs = allRuns.filter((run) => run.protocol_valid !== false);
     const median = (key) => {
       const values = runs.map((run) => run[key]).filter((value) => Number.isFinite(value)).sort((a, b) => a - b);
       return values.length ? values[Math.floor(values.length / 2)] : "n/a";
     };
     const completed = runs.filter((run) => run.completed).length;
     const retries = runs.reduce((sum, run) => sum + (run.retries || 0), 0);
-    console.log(`${variant}: n=${runs.length}, median total=${median("total_tokens")}, ` +
+    console.log(`${variant}: n=${runs.length}/${allRuns.length} valid, median total=${median("total_tokens")}, ` +
       `input=${median("input_tokens")}, output=${median("output_tokens")}, ` +
-      `billable-proxy=${median("billable_token_proxy")}, duration_s=${median("duration_seconds")}, ` +
+      `billable-proxy=${median("billable_token_proxy")}, cost_usd=${median("cost_usd")}, ` +
+      `duration_s=${median("duration_seconds")}, ` +
       `completed=${completed}/${runs.length}, retries=${retries}`);
   }
 }
@@ -156,6 +208,7 @@ try {
     compare(outputDir);
   } else {
     const usage = readUsage(findTranscript(repo));
+    const pricing = loadPricing(outputDir);
     const record = {
       recorded_at: new Date().toISOString(),
       variant: args.variant,
@@ -163,6 +216,9 @@ try {
       lane: args.lane,
       harness_commit: git(["rev-parse", "HEAD"], repo),
       ...usage,
+      cost_usd: priceUsage(usage.model_usage, pricing),
+      pricing_config: pricing.hash,
+      protocol_valid: args.protocolValid,
       completed: true,
       retries: 0,
     };

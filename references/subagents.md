@@ -6,8 +6,11 @@ named for its stage (develop → sonnet by default).
 
 ## When to split
 
-- **Complex lane only.** Simple tickets are done inline — subagent overhead isn't worth it.
-- Split when `plan.md` has distinct tasks with clear, independent acceptance criteria.
+- **Complex lane:** split when `plan.md` has distinct tasks with clear, independent
+  acceptance criteria.
+- **Simple lane:** always dispatch exactly one developer subagent after plan approval.
+  Do not edit files in the main session. If dispatch is unavailable, stop and mark the
+  run protocol-invalid rather than falling back to inline implementation.
 - Don't split work that shares tight state or must be reasoned about as one unit.
 
 ## Sequential with review checkpoints (default)
@@ -26,6 +29,12 @@ For each task in `plan.md`, in order:
 4. Proceed to the next task.
 
 This catches drift early and keeps you in the loop — the collaborative ethos of the harness.
+
+## Simple-lane dispatch
+
+After the user approves the brief inline plan, dispatch one `developer` role with the
+complete plan, relevant files, acceptance criteria, and `models.develop` from
+`config.yml`. Review the returned changes in the main session before verification.
 
 ## Parallel (for independent tasks)
 
