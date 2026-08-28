@@ -35,6 +35,16 @@ do not repeat the entire checklist or narrate routine tool use.
 
 ## Stage detail
 
+**0. Dependency preflight.** Before doing any ticket work, inspect the active
+platform's MCP/tool inventory and verify that the Atlassian/Jira MCP server is
+enabled. This is a hard gate for `/ticket`: if the server or the Jira tools
+listed by the platform mapping are unavailable, stop immediately and ask the
+user to enable/configure Atlassian MCP, naming the missing dependency. Do not
+fetch the ticket through a substitute API, shell command, browser, or guessed
+context. MCP dependencies used only by later stages (for example browser,
+Figma, or design tooling) are checked when that stage is reached and are
+subject to the same fail-closed rule.
+
 **1. Fetch.** Complex lane: first check for `plans/<TICKET-ID>/status.md`
 (`references/checkpoints.md`). If it exists, resume from its recorded stage instead —
 read it and its linked artifacts, sanity-check against reality, and do not re-run fetch/
@@ -103,6 +113,10 @@ flow — these are Jira writes too, so they fall under the same confirm.
 
 - One ambient entry. You drive the sub-skills; they don't self-trigger.
 - Pause on ambiguity or risk — never guess past it.
+- **Dependency gates (never skip).** Run the platform MCP preflight before the
+  initial Jira fetch and check later-stage MCP dependencies as they become
+  necessary. If a required server is unavailable, stop and ask the user to
+  enable it; never work around the missing integration.
 - **Approval gates (never skip).** Get explicit user approval before (a) writing any code
   — after the plan, both lanes — and (b) any outward action: opening a PR, writing to or
   transitioning a Jira ticket. Surface what you're about to do and wait for the go-ahead.
