@@ -8,6 +8,9 @@ plan, subagent-driven development, and an independent review.
 digraph ticket_workflow {
   rankdir=TB; node [shape=box, fontname="Helvetica"];
   start      [shape=oval, label="/ticket PROJ-123"];
+  preflight  [label="Preflight required MCP servers"];
+  depcheck   [shape=diamond, label="Atlassian/Jira MCP\navailable?"];
+  dep_pause  [label="Stop and ask user to\nenable/configure server"];
   fetch      [label="Fetch ticket (Jira / Atlassian MCP)"];
   understand [label="Understand request\nFlag questions / missing scope / blockers"];
   blocked    [shape=diamond, label="Blockers or\nopen questions?"];
@@ -32,7 +35,11 @@ digraph ticket_workflow {
   testing    [label="Testing instructions\n(delegate: tribe jira-testing-instructions)"];
   done       [shape=oval, label="Done"];
 
-  start->fetch->understand->blocked;
+  start->preflight->depcheck;
+  depcheck->fetch [label="yes"];
+  depcheck->dep_pause [label="no"];
+  dep_pause->preflight [label="after user resolves dependency"];
+  fetch->understand->blocked;
   blocked->pause [label="yes"]; pause->understand;
   blocked->assess [label="no"]; assess->confirm;
   confirm->brainstorm [label="complex"];
@@ -58,6 +65,10 @@ digraph ticket_workflow {
 | Quality gate | lint/build/test green (≤2 fix attempts, else pause) | same |
 | Review       | self-review (escalates to independent agent if risk grows) | independent review agent → `review.md` |
 | PR + testing | always (delegated to tribe)  | always (delegated to tribe)              |
+
+The initial Jira dependency is checked before fetching any ticket. Other MCP-backed
+dependencies are checked at the start of the stage that needs them and block that
+stage when unavailable.
 
 Complex-lane tickets can also pause and resume across sessions at a few points (after
 plan approval, between develop task-checkpoints, before review, before PR) — see

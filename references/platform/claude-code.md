@@ -5,6 +5,7 @@ concrete Claude Code mechanisms. Other platforms get their own file in this dire
 
 | Action in the skills                | Claude Code mechanism                                    |
 |-------------------------------------|----------------------------------------------------------|
+| Check required MCP availability     | Inspect the active tool/MCP inventory before the stage; fail closed if the named server/tools are absent |
 | Invoke a skill                      | `Skill` tool, or `/<name>` typed by the user             |
 | Fetch / update a Jira ticket        | Atlassian MCP tools (`getJiraIssue`, `editJiraIssue`, `addCommentToJiraIssue`, `transitionJiraIssue`, `searchJiraIssuesUsingJql`) |
 | Dispatch a subagent (with a model)  | `Agent` tool — set `subagent_type` and `model` (`opus`/`sonnet`/`haiku`/`fable`) |
@@ -45,3 +46,15 @@ Simple-lane implementation is dispatched as one `developer` subagent with
 
 - `/ticket <TICKET-ID>` → the orchestrator.
 - `/estimate <TICKET-ID>` → the standalone estimation utility.
+
+## MCP dependency gates
+
+Before `/ticket` fetches a Jira ticket, verify that the Atlassian MCP server is
+enabled and that the Jira read tools are available. If either check fails, stop
+and ask the user to enable/configure the Atlassian MCP server; do not substitute
+another API or command.
+
+Check other MCP-backed capabilities at the start of the stage that needs them.
+For example, browser or Figma MCP is required only when the verification or
+design-review stage selects that capability, but an unavailable required server
+still blocks that stage.

@@ -13,6 +13,11 @@ sub-skills; nothing else auto-triggers, so skills never compete. Simple tickets 
 take a light path; complex tickets get brainstorming, a written plan, subagent-driven
 development, and an independent review.
 
+Before `/ticket` fetches anything, it verifies that the Atlassian/Jira MCP
+server and required Jira read tools are enabled. Missing dependencies stop the
+workflow with a request to enable/configure the server; later-stage MCP
+dependencies are checked when their stage is reached rather than worked around.
+
 ```
 skills/
   ticket/      # /ticket — the orchestrator (only ambient workflow entry)
