@@ -1,7 +1,8 @@
-# Platform mapping — Copilot CLI  (STUB — not yet built/verified)
+# Platform mapping — Copilot CLI (installer support; adapter not yet verified)
 
-Placeholder for a future Copilot CLI adapter. The skills are authored platform-neutral
-(actions, not tool names), so enabling Copilot CLI is a mapping exercise, not a rewrite.
+The installer links the platform-neutral skills and agents into `~/.copilot/skills`
+and `~/.copilot/agents`. This makes the files discoverable by Copilot CLI, but does
+not mean that every workflow action below has been mapped or verified.
 
 To complete this later, fill in the Copilot CLI equivalent for each action:
 

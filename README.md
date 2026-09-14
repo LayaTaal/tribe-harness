@@ -30,7 +30,7 @@ skills/
 references/    # develop, verify, subagents, file-organization,
                # checkpoints, decision-tree, platform/*  (read by the orchestrator)
 config.yml     # model policy + defaults
-install.sh     # symlink skills into ~/.claude/skills
+install.sh     # symlink skills into ~/.copilot/skills
 ```
 
 ## Install
@@ -39,9 +39,12 @@ install.sh     # symlink skills into ~/.claude/skills
 ./install.sh
 ```
 
-Symlinks the skills into `~/.claude/skills`. Launch your session on **Opus** (the
-"think" stages and orchestration use the session model; implementation is dispatched to
-Sonnet subagents — see `config.yml`).
+Symlinks the skills and agents into `~/.copilot/skills` and `~/.copilot/agents`.
+Set `COPILOT_HOME` to override the destination. Re-running the installer repoints
+existing Tribe Harness links and removes stale links from this repository while
+preserving regular files and unrelated symlinks. It does not modify Claude or
+plugin-managed directories. Restart Copilot after installing so the session
+reloads the skill inventory.
 
 ## Usage
 
@@ -91,9 +94,9 @@ Simple-lane implementation is delegated to one developer subagent using the
 ## Portability
 
 Skills are written in terms of *actions*, not tool names; platform specifics live in
-`references/platform/`. v1 is built and verified on **Claude Code**. A `copilot-cli.md`
-stub is in place so a Copilot CLI adapter is a mapping task, not a rewrite. Copilot
-Desktop is best-effort.
+`references/platform/`. The installer targets Copilot CLI skill and agent discovery.
+The full Copilot CLI workflow adapter remains a mapping task; see
+`references/platform/copilot-cli.md`. Copilot Desktop is best-effort.
 
 ## Roadmap
 
