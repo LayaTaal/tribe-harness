@@ -3,6 +3,13 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions before 1.1.0
 predate this file — see `git log` for that history.
 
+## [1.5.0] - 2026-10-26
+
+### Added
+- Claude Code plugin packaging (`.claude-plugin/plugin.json` and `marketplace.json`), so the
+  harness installs with `/plugin install` in Claude Code and the Claude Desktop Code tab.
+  `install.sh` remains the Copilot CLI installer.
+
 ## [1.4.0] - 2026-08-26
 
 ### Changed

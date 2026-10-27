@@ -1,0 +1,11 @@
+{
+  "name": "tribe-harness",
+  "owner": { "name": "Jason Zinn" },
+  "plugins": [
+    {
+      "name": "tribe-harness",
+      "source": "./",
+      "description": "Collaborative Jira ticket workflow: /ticket, /estimate, /handoff, /session-metrics."
+    }
+  ]
+}

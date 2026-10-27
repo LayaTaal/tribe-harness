@@ -35,6 +35,28 @@ install.sh     # symlink skills into ~/.copilot/skills
 
 ## Install
 
+### Claude Code / Claude Desktop (Code tab) — plugin
+
+```
+/plugin marketplace add LayaTaal/tribe-harness
+/plugin install tribe-harness@tribe-harness
+```
+
+Or from a local checkout (also the way to develop it):
+
+```bash
+claude plugin marketplace add /path/to/tribe-harness
+claude plugin install tribe-harness@tribe-harness
+# or, for a single session without installing:
+claude --plugin-dir /path/to/tribe-harness
+```
+
+Run `/reload-plugins` (or restart) afterwards. Skills are namespaced
+(`/tribe-harness:ticket`); the bare `/ticket` works while no other skill shares the name.
+The Claude Desktop chat and Cowork tabs don't load Claude Code plugins.
+
+### Copilot CLI — symlinks
+
 ```bash
 ./install.sh
 ```
