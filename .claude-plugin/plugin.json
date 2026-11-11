@@ -1,6 +1,6 @@
 {
   "name": "tribe-harness",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Collaborative Jira ticket workflow: understand, brainstorm, plan, develop, verify, review, PR, testing instructions.",
   "author": { "name": "Jason Zinn" },
   "repository": "https://github.com/LayaTaal/tribe-harness",

@@ -58,8 +58,11 @@ external dependencies, risky/destructive/security/auth implications. If any exis
 **pause** — surface the questions to the user, and offer to comment on Jira or flag the
 PM. Do not proceed on guesses. Resolve, then continue.
 
-**3. Assess + confirm lane.** Using the estimate core (`skills/estimate`), judge whether
-this is simple (<=3h: isolated, clear AC, low risk) or complex. Propose the lane with a
+**3. Assess + confirm lane.** Run the Tribe `estimate` skill (read-only; delegate, don't
+reimplement). If it isn't installed, stop and ask the user to install it
+(`/plugin install estimate@tribe-skills`). Use its result to judge whether this is simple
+(<=3h: top of the estimate's range <=3h, high confidence, isolated, clear AC, low risk) or
+complex. Skip its offer to post to Jira here. Propose the lane with a
 one-line rationale and let the user confirm or override (`config.yml` `defaults.lane`).
 **4. Brainstorm (complex only).** Invoke the `brainstorm` sub-skill → writes
 `brainstorm.md`. Offer to stress-test the chosen approach with `grill-me`.

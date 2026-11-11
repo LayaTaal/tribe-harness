@@ -46,7 +46,7 @@ Simple-lane implementation is dispatched as one `developer` subagent with
 ## Entry points
 
 - `/ticket <TICKET-ID>` → the orchestrator.
-- `/estimate <TICKET-ID>` → the standalone estimation utility.
+- `/estimate <TICKET-ID>` → the Tribe `estimate` skill (from tribe-skills, not this plugin).
 
 ## MCP dependency gates
 

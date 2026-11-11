@@ -15,7 +15,7 @@ digraph ticket_workflow {
   understand [label="Understand request\nFlag questions / missing scope / blockers"];
   blocked    [shape=diamond, label="Blockers or\nopen questions?"];
   pause      [label="Pause: surface to user\n(optionally comment Jira / ping PM)\nResolve before continuing"];
-  assess     [label="Assess lane (reuses estimate core)"];
+  assess     [label="Assess lane (Tribe estimate skill)"];
   confirm    [shape=diamond, label="Simple (<=3h) or Complex?\n(user confirms)"];
 
   brainstorm [label="brainstorm sub-skill\n-> plans/ID/brainstorm.md"];

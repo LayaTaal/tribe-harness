@@ -5,7 +5,7 @@
     {
       "name": "tribe-harness",
       "source": "./",
-      "description": "Collaborative Jira ticket workflow: /ticket, /estimate, /handoff, /session-metrics."
+      "description": "Collaborative Jira ticket workflow: /ticket, /handoff, /session-metrics."
     }
   ]
 }
