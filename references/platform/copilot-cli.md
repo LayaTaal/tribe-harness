@@ -17,7 +17,7 @@ To complete this later, fill in the Copilot CLI equivalent for each action:
 | Run a command                      | TODO                             |
 | Browser verification               | TODO                             |
 | Model override per stage           | TODO; preserve planning and implementation model settings |
-| Entry points (/ticket, /estimate)  | TODO                             |
+| Entry points (/ticket)             | TODO                             |
 
 Open questions to resolve before relying on Copilot CLI:
 - MCP parity for Jira (Atlassian) and browser tooling.

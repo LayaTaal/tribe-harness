@@ -21,7 +21,6 @@ dependencies are checked when their stage is reached rather than worked around.
 ```
 skills/
   ticket/      # /ticket — the orchestrator (only ambient workflow entry)
-  estimate/    # /estimate — standalone, read-only time estimate
   session-metrics/ # /session-metrics — record and compare Claude Code usage
   brainstorm/  # invoked by ticket (complex lane)
   plan/        # invoked by ticket
@@ -72,7 +71,7 @@ reloads the skill inventory.
 
 ```
 /ticket PROJ-123            # work a ticket end-to-end
-/estimate PROJ-123          # just estimate it (read-only)
+/estimate PROJ-123          # just estimate it (Tribe `estimate` skill, read-only)
 ```
 
 The orchestrator assesses simple vs complex and asks you to confirm before working.
@@ -83,7 +82,8 @@ Simple-lane implementation is delegated to one developer subagent using the
 
 **Keeps (delegates to — do not reimplement):**
 - Tribe `git-workflow` (branches/PRs), `jira-ticket-standard` (writing tickets),
-  `jira-testing-instructions` (QA steps on Jira).
+  `jira-testing-instructions` (QA steps on Jira), `estimate` (time estimates and the
+  lane assessment).
 - Matt Pocock's `grill-me` (already symlinked in `~/.agents/skills`).
 - Jira access via the Atlassian MCP.
 

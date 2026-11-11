@@ -3,6 +3,13 @@
 Format based on [Keep a Changelog](https://keepachangelog.com/). Versions before 1.1.0
 predate this file — see `git log` for that history.
 
+## [1.6.0] - 2026-11-11
+
+### Removed
+- The harness's own `/estimate` skill. Estimates now come from the Tribe `estimate` skill
+  in tribe-skills (`/plugin install estimate@tribe-skills`), which `/ticket` uses for the
+  lane assessment.
+
 ## [1.5.0] - 2026-10-26
 
 ### Added
